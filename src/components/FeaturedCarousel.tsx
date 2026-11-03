@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 16,
         paddingBottom: 20,
-        backgroundColor: "rgba(0, 0, 0, 0.75)",
+        backgroundColor: "rgba(0, 0, 0, 0.50)",
     },
     animeTitle: {
         fontSize: 36,

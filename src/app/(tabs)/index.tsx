@@ -1,8 +1,8 @@
 
-import { ScrollView, Text, View, StyleSheet } from "react-native";
+import { ScrollView, StatusBar, Text, View, StyleSheet } from "react-native";
 import { useState } from "react";
-import Header from "../components/Header";
-import FeaturedCarousel from "../components/FeaturedCarousel";
+import Header from "../../components/Header";
+import FeaturedCarousel from "../../components/FeaturedCarousel";
 
 const Home = () => {
   const [headerBlack, setHeaderBlack] = useState(false);
@@ -23,12 +23,8 @@ const Home = () => {
           Trending in Canada
         </Text>
       </ScrollView>
-      <View
-        style={[
-          styles.headerOverlay,
-          headerBlack && styles.headerBlack,
-        ]}
-      >
+      <View pointerEvents="box-none"
+        style={[styles.headerOverlay, headerBlack && styles.headerBlack,]}>
         <Header isHome={true} />
       </View>
     </View>
@@ -44,7 +40,7 @@ const styles = StyleSheet.create({
   },
   headerOverlay: {
     position: "absolute",
-    top: 0,
+    top: 12,
     left: 0,
     right: 0,
     zIndex: 10,

@@ -76,7 +76,17 @@ const featuredAnime: FeaturedAnime[] = [
         description: "Frieren embarks on a new quest with a new apprentice to make peace with the nature of life and death.",
         episode: "Continue watching S1 E8",
         image: "https://picsum.photos/id/500/900/1300"
-    }
+    },
+    {
+        id: "6",
+        title: "Full Metal Alchemist",
+        ageRating: "14+",
+        audio: "Dub | Sub",
+        genres: ["Action", "Adventure", "Supernatural"],
+        description: "After losing his mother and almost his brother in a transmutaion accident, Elric embarks on an adventure to save his brothers physical form",
+        episode: "Start Watching Episode 1",
+        image: "https://picsum.photos/id/600/900/1300",
+    },
 ];
 
 export default featuredAnime;

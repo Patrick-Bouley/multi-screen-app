@@ -301,13 +301,14 @@ const styles = StyleSheet.create({
     },
     indicators: {
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         gap: 8,
         paddingVertical: 18,
+        paddingHorizontal: 16,
     },
     indicator: {
-        width: 38,
-        height: 6,
+        width: 40,
+        height: 8,
         borderRadius: 4,
         backgroundColor: "#aaa",
     },

@@ -16,6 +16,7 @@ import {Alert, Image, FlatList, Pressable, Text, View, Dimensions, StyleSheet,} 
 import { Ionicons } from "@expo/vector-icons";
 import featuredAnime from "../data/FeaturedData";
 import { useFavourites } from "../context/FavouritesContext";
+import { router } from "expo-router";
 
 // Get the current window width so each slide fills the screen.
 // FlatList uses this width for horizontal paging and scroll calculations.
@@ -127,9 +128,18 @@ useEffect(() => {
         // item represents the current anime being rendered.
         renderItem={({ item }) => (
           <View style={styles.featuredContainer}>
-            <Image
-              source={{ uri: item.image }}
-              style={styles.featuredImage}/>
+            {/* Tapping the promotional artwork opens Anime Details. */}
+            <Pressable
+              style={styles.featuredImagePressable}
+              onPress={() =>
+                router.push({
+                  pathname: "/anime/[id]",
+                  params: { id: item.id },
+                })}>
+              <Image
+                source={{ uri: item.image }}
+                style={styles.featuredImage}/>
+            </Pressable>
             {/* Information displayed over the bottom of the image */}
             <View style={styles.featuredInformation}>
                 {/* Anime title */}
@@ -217,109 +227,113 @@ export default FeaturedCarousel;
 const styles = StyleSheet.create({
     featuredContainer: {
       // Each featured slide fills the screen's available width. keep in mind if i need to change this for web
-        width: screenWidth,
-        height: 580,
-        // Allows the information overlay to be positioned relative to this slide.
-        position: "relative",
-        // Hide anything extending beyond the slide boundaries.
-        overflow: "hidden",
+      width: screenWidth,
+      height: 580,
+      // Allows the information overlay to be positioned relative to this slide.
+      position: "relative",
+      // Hide anything extending beyond the slide boundaries.
+      overflow: "hidden",
     },
     featuredImage: {
-        width: "100%",
-        height: "100%",
+      width: "100%",
+      height: "100%",
     },
     featuredInformation: {
-        position: "absolute",
-        bottom: 0,
-        width: "100%",
-        padding: 16,
-        paddingBottom: 20,
-        // Semi-transparent black background for readable text.
-        // The final value (0.50) controls background opacity.
-        backgroundColor: "rgba(0, 0, 0, 0.50)",
+      position: "absolute",
+      bottom: 0,
+      width: "100%",
+      padding: 16,
+      paddingBottom: 20,
+      // Semi-transparent black background for readable text.
+      // The final value (0.50) controls background opacity.
+      backgroundColor: "rgba(0, 0, 0, 0.50)",
     },
     animeTitle: {
-        fontSize: 36,
-        fontWeight: "bold",
-        color: "#fff",
-        marginBottom: 10,
+      fontSize: 36,
+      fontWeight: "bold",
+      color: "#fff",
+      marginBottom: 10,
     },
     description: {
-        fontSize: 12,
-        color: "#fff",
-        marginBottom: 20,
+      fontSize: 12,
+      color: "#fff",
+      marginBottom: 20,
     },
     buttonRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 12,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 12,
     },
     watchButton: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 10,
-        backgroundColor: "#FF640A",
-        paddingVertical: 14,
-        borderRadius: 30,
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 10,
+      backgroundColor: "#FF640A",
+      paddingVertical: 14,
+      borderRadius: 30,
     },
     watchText: {
-        color: "#000",
-        fontWeight: "bold",
-        fontSize: 15,
+      color: "#000",
+      fontWeight: "bold",
+      fontSize: 15,
     },
     listButton: {
-        borderColor: "#ff640a",
-        borderWidth: 2,
-        borderRadius: 30,
-        width: 50,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
+      borderColor: "#ff640a",
+      borderWidth: 2,
+      borderRadius: 30,
+      width: 50,
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
     },
     indicators: {
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        gap: 8,
-        paddingVertical: 18,
-        paddingHorizontal: 16,
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      gap: 8,
+      paddingVertical: 18,
+      paddingHorizontal: 16,
     },
     indicator: {
-        width: 40,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: "#aaa",
+      width: 40,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: "#aaa",
     },
     indicatorFill: {
-        height: "100%",
-        backgroundColor: "#ff640a",
+      height: "100%",
+      backgroundColor: "#ff640a",
     },
     animeMetadata: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 12,
-        gap: 4,
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 12,
+      gap: 4,
     },
     ageRating: {
-        backgroundColor: "#404044",
-        color: "#fff",
-        fontSize: 13,
-        fontWeight: "bold",
-        paddingHorizontal: 6,
-        paddingVertical: 3,
-        borderRadius: 2,
-        overflow: "hidden",
+      backgroundColor: "#404044",
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: "bold",
+      paddingHorizontal: 6,
+      paddingVertical: 3,
+      borderRadius: 2,
+      overflow: "hidden",
     },
     metadataText: {
-        color: "#fff",
-        fontSize: 12,
-        flexShrink: 1,
+      color: "#fff",
+      fontSize: 12,
+      flexShrink: 1,
     },
     separator: {
-        color: "#fff",
-        fontSize: 8,
-        textAlign: "center",
-        includeFontPadding: false,
+      color: "#fff",
+      fontSize: 8,
+      textAlign: "center",
+      includeFontPadding: false,
+    },
+    featuredImagePressable: {
+      width: "100%",
+      height: "100%",
     },
 });

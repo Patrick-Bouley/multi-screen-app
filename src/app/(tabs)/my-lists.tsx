@@ -1,118 +1,337 @@
-
 /*
  * My Lists Screen
  *
- * Displays anime bookmarked from Home or Browse.
+ * Displays four sections:
+ * - Watchlist: anime saved through FavouritesContext
+ * - Crunchylists: placeholder
+ * - History: placeholder
+ * - Downloads: placeholder
  *
- * The Favourites Context stores bookmarked IDs.
- * We use these IDs to find their matching objects
- * in the shared AnimeData catalogue.
- *
- * Users can remove bookmarks directly from My Lists.
+ * The Watchlist uses a vertical FlatList with one anime
+ * per row to match the Crunchyroll reference.
  */
-
-import {
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-
+import { useState } from "react";
+import { Alert, FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import Header from "../../components/Header";
 import { allAnime } from "../../data/AnimeData";
+import type { Anime } from "../../data/AnimeData";
 import { useFavourites } from "../../context/FavouritesContext";
 
+type ListCategory =
+  | "Watchlist"
+  | "Crunchylists"
+  | "History"
+  | "Downloads";
+
+const categories: ListCategory[] = [
+  "Watchlist",
+  "Crunchylists",
+  "History",
+  "Downloads",
+];
+
 const MyLists = () => {
-  // Access the same bookmarks used by Home and Browse.
   const { favourites, toggleFavourite } = useFavourites();
 
-  // Find the complete anime objects matching our saved IDs.
-  // We don't need another useState because this can be
-  // calculated whenever the shared favourites change.
+  const [activeCategory, setActiveCategory] =
+    useState<ListCategory>("Watchlist");
+
+  // Local sample feature for creating named Crunchylists.
+  const [customLists, setCustomLists] = useState<string[]>([]);
+  const [newListName, setNewListName] = useState("");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  // Convert bookmarked IDs into full anime objects.
   const savedAnime = allAnime.filter((anime) =>
     favourites.includes(anime.id)
+  );
+
+  const createList = () => {
+    const name = newListName.trim();
+
+    if (!name) {
+      Alert.alert("List Name", "Please enter a list name.");
+      return;
+    }
+
+    setCustomLists((current) => [...current, name]);
+    setNewListName("");
+    setShowCreateModal(false);
+  };
+
+  const openDetails = (id: string) => {
+    router.push({
+      pathname: "/anime/[id]",
+      params: { id },
+    });
+  };
+
+  const showOptions = (anime: Anime) => {
+    Alert.alert(anime.title, "Choose an option", [
+      {
+        text: "Remove from Watchlist",
+        onPress: () => toggleFavourite(anime.id),
+      },
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+    ]);
+  };
+
+  // Render one horizontal anime row.
+  const renderWatchlistItem = ({ item }: { item: Anime }) => (
+    <View style={styles.watchlistCard}>
+      {/* Poster opens the Details screen. */}
+      <Pressable onPress={() => openDetails(item.id)}>
+        <Image
+          source={{ uri: item.image }}
+          style={styles.poster}
+        />
+      </Pressable>
+
+      <View style={styles.cardInformation}>
+        <Pressable onPress={() => openDetails(item.id)}>
+          <Text style={styles.animeTitle} numberOfLines={2}>
+            {item.title}
+          </Text>
+
+          <Text style={styles.episode} numberOfLines={2}>
+            {item.episode ?? "Start Watching E1"}
+          </Text>
+        </Pressable>
+
+        <View style={styles.cardBottomRow}>
+          <Text style={styles.audio}>{item.audio}</Text>
+
+          <View style={styles.cardButtons}>
+            {/* Remove this anime from the shared Watchlist. */}
+            {/* The icon reflects whether this anime is saved. */}
+            <Pressable
+            hitSlop={10}
+            onPress={() => toggleFavourite(item.id)}>
+            <Ionicons
+                name={
+                favourites.includes(item.id)
+                    ? "heart"
+                    : "heart-outline"
+                }
+                size={25}
+                color="#FFFFFF"/>
+            </Pressable>
+
+            <Pressable
+              hitSlop={10}
+              onPress={() => showOptions(item)}
+            >
+              <Ionicons
+                name="ellipsis-vertical"
+                size={22}
+                color="#FFFFFF"
+              />
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+
+  // Shared layout for empty categories.
+  const renderEmptyState = (
+    icon: React.ComponentProps<typeof Ionicons>["name"],
+    title: string,
+    description: string
+  ) => (
+    <View style={styles.emptyContainer}>
+      <Ionicons name={icon} size={80} color="#FF640A" />
+
+      <Text style={styles.emptyTitle}>{title}</Text>
+
+      <Text style={styles.emptyDescription}>
+        {description}
+      </Text>
+    </View>
   );
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <Header title="My Lists" />
 
-      <FlatList
-        data={savedAnime}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={styles.gridRow}
-        contentContainerStyle={styles.gridContent}
-
-        // Appears above the saved anime.
-        ListHeaderComponent={
-          <Text style={styles.sectionTitle}>
-            Watchlist
-          </Text>
-        }
-
-        // Shown when the saved anime array is empty.
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Ionicons
-              name="bookmark-outline"
-              size={54}
-              color="#999999"
-            />
-
-            <Text style={styles.emptyTitle}>
-              Your Watchlist is Empty
-            </Text>
-
-            <Text style={styles.emptyDescription}>
-              Bookmark anime from Home or Browse
-              to add them to your watchlist.
-            </Text>
-          </View>
-        }
-
-        // FlatList calls renderItem for each bookmarked anime.
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            {/* Poster from the master anime catalogue */}
-            <Image
-              source={{ uri: item.image }}
-              style={styles.poster}
-            />
-
+      {/* Horizontal navigation between My Lists categories. */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.categoryNavigation}
+        contentContainerStyle={styles.categoryRow}
+      >
+        {categories.map((category) => (
+          <Pressable
+            key={category}
+            onPress={() => setActiveCategory(category)}
+            style={[
+              styles.categoryButton,
+              activeCategory === category &&
+                styles.activeCategory,
+            ]}
+          >
             <Text
-              style={styles.animeTitle}
-              numberOfLines={1}
-              ellipsizeMode="tail"
+              style={[
+                styles.categoryText,
+                activeCategory === category &&
+                  styles.activeCategoryText,
+              ]}
             >
-              {item.title}
+              {category}
             </Text>
+          </Pressable>
+        ))}
+      </ScrollView>
 
-            <View style={styles.informationRow}>
-              <Text style={styles.audio}>
-                {item.audio}
+      {/* Only render the content for the selected category. */}
+      {activeCategory === "Watchlist" && (
+        <FlatList
+          data={savedAnime}
+          keyExtractor={(item) => item.id}
+          renderItem={renderWatchlistItem}
+          contentContainerStyle={styles.listContent}
+          ListHeaderComponent={
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>
+                Recent Activity
               </Text>
 
-              {/* Remove the anime from the shared watchlist */}
+              <View style={styles.headerButtons}>
+                <Pressable
+                  hitSlop={10}
+                  onPress={() =>
+                    Alert.alert(
+                      "Sort",
+                      "Watchlist sorting is not configured yet."
+                    )
+                  }
+                >
+                  <MaterialIcons
+                    name="sort"
+                    size={26}
+                    color="#FFFFFF"
+                  />
+                </Pressable>
+
+                <Pressable
+                  hitSlop={10}
+                  onPress={() =>
+                    Alert.alert(
+                      "Filter",
+                      "Watchlist filtering is not configured yet."
+                    )
+                  }
+                >
+                  <Ionicons
+                    name="options-outline"
+                    size={26}
+                    color="#FFFFFF"
+                  />
+                </Pressable>
+              </View>
+            </View>
+          }
+          ListEmptyComponent={renderEmptyState(
+            "bookmark-outline",
+            "Your Watchlist is Empty",
+            "Add anime from Home or Browse to see them here."
+          )}
+        />
+      )}
+
+      {activeCategory === "Crunchylists" && (
+        <View style={styles.crunchylistsContent}>
+          {customLists.length === 0 ? (
+            renderEmptyState(
+              "albums-outline",
+              "You don't have any Crunchylists yet.",
+              "Let's create one!"
+            )
+          ) : (
+            <ScrollView style={styles.customListScroll}>
+              {customLists.map((name, index) => (
+                <View
+                  key={`${name}-${index}`}
+                  style={styles.customListRow}
+                >
+                  <Ionicons
+                    name="list-outline"
+                    size={24}
+                    color="#FF640A"
+                  />
+                  <Text style={styles.customListName}>
+                    {name}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
+          )}
+        </View>
+      )}
+
+      {activeCategory === "History" && (
+        renderEmptyState(
+          "time-outline",
+          "No Watch History",
+          "Episodes you watch will appear here."
+        )
+      )}
+
+      {activeCategory === "Downloads" && (
+        renderEmptyState(
+          "download-outline",
+          "No Downloads",
+          "Downloaded episodes will appear here."
+        )
+      )}
+
+      {/* Android-compatible dialog for entering a list name.
+          Alert.prompt() is not supported on Android. */}
+      <Modal
+        visible={showCreateModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowCreateModal(false)}
+      >
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              Create New List
+            </Text>
+
+            <TextInput
+              value={newListName}
+              onChangeText={setNewListName}
+              placeholder="List name"
+              placeholderTextColor="#777777"
+              style={styles.input}
+              maxLength={40}
+            />
+
+            <View style={styles.modalButtons}>
               <Pressable
-                hitSlop={10}
-                onPress={() => toggleFavourite(item.id)}
+                onPress={() => {
+                  setNewListName("");
+                  setShowCreateModal(false);
+                }}
               >
-                <Ionicons
-                  name="bookmark"
-                  size={22}
-                  color="#FF640A"
-                />
+                <Text style={styles.cancelText}>Cancel</Text>
+              </Pressable>
+
+              <Pressable onPress={createList}>
+                <Text style={styles.confirmText}>Create</Text>
               </Pressable>
             </View>
           </View>
-        )}
-      />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -124,62 +343,101 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000",
   },
-
-  gridContent: {
+  categoryNavigation: {
+    height: 60,
+    flexGrow: 0,
+  },
+  categoryRow: {
+    paddingHorizontal: 8,
+    alignItems: "stretch",
+  },
+  categoryButton: {
+    paddingHorizontal: 12,
+    justifyContent: "center",
+    borderBottomWidth: 3,
+    borderBottomColor: "#303030",
+  },
+  activeCategory: {
+    borderBottomColor: "#FF640A",
+  },
+  categoryText: {
+    color: "#999999",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  activeCategoryText: {
+    color: "#FFFFFF",
+  },
+  listContent: {
     paddingHorizontal: 16,
-    paddingBottom: 24,
+    paddingBottom: 30,
     flexGrow: 1,
   },
-
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 20,
+  },
   sectionTitle: {
     color: "#FFFFFF",
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 20,
   },
-
-  gridRow: {
-    justifyContent: "space-between",
-    marginBottom: 20,
+  headerButtons: {
+    flexDirection: "row",
+    gap: 24,
   },
-
-  card: {
-    width: "48%",
+  watchlistCard: {
+    flexDirection: "row",
+    gap: 14,
+    marginBottom: 12,
+    minHeight: 155,
   },
-
   poster: {
-    width: "100%",
-    aspectRatio: 2 / 3,
+    width: 100,
+    height: 150,
     resizeMode: "cover",
   },
-
+  cardInformation: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingVertical: 10,
+  },
   animeTitle: {
     color: "#FFFFFF",
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "bold",
-    marginTop: 8,
   },
-
-  informationRow: {
+  episode: {
+    color: "#999999",
+    fontSize: 14,
+    marginTop: 6,
+  },
+  cardBottomRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 8,
   },
-
   audio: {
     color: "#999999",
     fontSize: 13,
+    flexShrink: 1,
   },
-
+  cardButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 22,
+    marginLeft: 8,
+  },
   emptyContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 32,
+    paddingVertical: 36,
   },
-
   emptyTitle: {
     color: "#FFFFFF",
     fontSize: 20,
@@ -187,11 +445,72 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
   },
-
   emptyDescription: {
     color: "#999999",
     fontSize: 14,
     marginTop: 12,
     textAlign: "center",
+  },
+  crunchylistsContent: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  customListScroll: {
+    flex: 1,
+    marginTop: 20,
+  },
+  customListRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    paddingVertical: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: "#303030",
+  },
+  customListName: {
+    color: "#FFFFFF",
+    fontSize: 17,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.75)",
+    justifyContent: "center",
+    padding: 24,
+  },
+  modalContent: {
+    backgroundColor: "#242424",
+    padding: 24,
+    borderRadius: 12,
+  },
+  modalTitle: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: "#101010",
+    borderWidth: 1,
+    borderColor: "#555555",
+    borderRadius: 6,
+    padding: 12,
+    color: "#FFFFFF",
+    fontSize: 16,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 30,
+    marginTop: 24,
+  },
+  cancelText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+  },
+  confirmText: {
+    color: "#FF640A",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

@@ -16,6 +16,8 @@ import { Ionicons, MaterialIcons, } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { trendingAnime } from "../../data/TrendingData";
 import type { Anime } from "../../data/TrendingData";
+import { router } from "expo-router";
+import { useFavourites } from "../../context/FavouritesContext";
 
 // Categories displayed across the top of Browse.
 const categories = [
@@ -30,13 +32,41 @@ const Browse = () => {
   // Tracks which category is currently selected.
   const [activeCategory, setActiveCategory] = useState("All Anime");
 
+  // Access shared favourites from the root Provider.
+  const { favourites, toggleFavourite } = useFavourites();
+
+  // Opens a selected anime in the Details Stack.
+  const openDetails = (id: string) => {
+    router.push({
+      pathname: "/anime/[id]",
+      params: { id },
+    });
+  };
+
+  // Displays the appropriate Watchlist option.
+  const showAnimeOptions = (anime: Anime) => {
+  const isSaved = favourites.includes(anime.id);
+
+  Alert.alert(anime.title, "Choose an option", [
+    {
+      text: isSaved
+        ? "Remove from Watchlist"
+        : "Add to Watchlist",
+      onPress: () => toggleFavourite(anime.id),
+    },
+    {
+      text: "Cancel",
+      style: "cancel",
+    },
+  ]);
+};
+
   // Creates one anime card within the two-column grid.
   const renderAnime = ({ item }: { item: Anime }) => (
     <View style={styles.card}>
 
       {/* Anime poster */}
-      <Pressable
-        onPress={() => Alert.alert(item.title)}>
+      <Pressable onPress={() => openDetails(item.id)}>
         <Image
           source={{ uri: item.image }}
           style={styles.poster}/>
@@ -53,7 +83,7 @@ const Browse = () => {
         <Text style={styles.audio}>{item.audio}</Text>
         <Pressable
           hitSlop={10}
-          onPress={() => Alert.alert("Options", item.title)}>
+          onPress={() => showAnimeOptions(item)}>
           <Ionicons
             name="ellipsis-vertical"
             size={18}

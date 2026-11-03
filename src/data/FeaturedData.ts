@@ -28,7 +28,7 @@ export interface FeaturedAnime {
 
 const featuredAnime: FeaturedAnime[] = [
     {
-        id: "1",
+        id: "black-clover",
         title: "Black Clover",
         ageRating: "14+",
         audio: "Dub | Sub",
@@ -38,7 +38,7 @@ const featuredAnime: FeaturedAnime[] = [
         image: "https://picsum.photos/id/184/900/1300"
     },
     {
-        id: "2",
+        id: "demon-slayer",
         title: "Demon Slayer",
         ageRating: "16+",
         audio: "Dub | Sub",
@@ -48,7 +48,7 @@ const featuredAnime: FeaturedAnime[] = [
         image: "https://picsum.photos/id/239/900/1300"
     },
     {
-        id: "3",
+        id: "jujutsu-kaisen",
         title: "Jujutsu Kaisen",
         ageRating: "16+",
         audio: "Dub | Sub",
@@ -58,7 +58,7 @@ const featuredAnime: FeaturedAnime[] = [
         image: "https://picsum.photos/id/314/900/1300"
     },
     {
-        id: "4",
+        id: "soul-eater",
         title: "Soul Eater",
         ageRating: "14+",
         audio: "Dub | Sub",
@@ -68,7 +68,7 @@ const featuredAnime: FeaturedAnime[] = [
         image: "https://picsum.photos/id/400/900/1300"
     },
     {
-        id: "5",
+        id: "frieren",
         title: "Frieren: Beyond Journey's End",
         ageRating: "16+",
         audio: "Dub | Sub",
@@ -78,7 +78,7 @@ const featuredAnime: FeaturedAnime[] = [
         image: "https://picsum.photos/id/500/900/1300"
     },
     {
-        id: "6",
+        id: "full-metal-alchemist",
         title: "Full Metal Alchemist",
         ageRating: "14+",
         audio: "Dub | Sub",

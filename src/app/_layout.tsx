@@ -1,7 +1,18 @@
+/*
+ * Root Layout
+ *
+ * Provides Stack navigation for the application.
+ *
+ * FavouritesProvider makes shared bookmark state available to every screen inside the Stack,
+ * including the Home, Browse, and My Lists tabs.
+ */
 import { Stack } from "expo-router";
+import { FavouritesProvider } from "../context/FavouritesContext";
 
 export default function RootLayout() {
-  // We hide Expo Router's default header because our
-  // application uses its own custom Crunchyroll header.
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <FavouritesProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </FavouritesProvider>
+  );
 }

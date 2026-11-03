@@ -11,11 +11,11 @@
  * - Displays anime metadata, descriptions, and watch buttons.
  *
  */
-
 import { useState, useEffect, useRef } from "react";
 import {Alert, Image, FlatList, Pressable, Text, View, Dimensions, StyleSheet,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import featuredAnime from "../data/FeaturedData";
+import { useFavourites } from "../context/FavouritesContext";
 
 // Get the current window width so each slide fills the screen.
 // FlatList uses this width for horizontal paging and scroll calculations.
@@ -27,10 +27,6 @@ const FeaturedCarousel = () => {
   // Arrays start at index 0, so the first anime is selected initially.
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Stores the IDs of bookmarked anime in an array.
-  // This begins empty because no anime have been bookmarked.
-  const [bookmarkedAnime, setBookmarkedAnime] = useState<string[]>([]);
-
   // Holds a reference to the FlatList.
   // This allows us to scroll the carousel through code, without requiring the user to swipe manually.
   const carouselRef = useRef<FlatList>(null);
@@ -38,24 +34,9 @@ const FeaturedCarousel = () => {
   // Stores the active progress bar's fill percentage (0 to 100).
   const [progress, setProgress] = useState(0);
 
-  /*
-   * Bookmark Handler
-   *
-   * Adds or removes an anime ID from the bookmarkedAnime array.
-   * React state updates cause the bookmark icon to re-render.
-   */
-  const toggleBookmark = (id: string) => {
-    // Check whether the anime is already bookmarked.
-    if (bookmarkedAnime.includes(id)) {
-      // Remove the matching ID by creating a new filtered array.
-      setBookmarkedAnime(
-        bookmarkedAnime.filter((animeId) => animeId !== id)
-      );
-    } else {
-      // Create a new array with all existing IDs plus the new one.
-      setBookmarkedAnime([...bookmarkedAnime, id]);
-    }
-  };
+  // Retrieve shared bookmarks and the toggle function
+// from the Favourites Context.
+const { favourites, toggleFavourite } = useFavourites();
 
  /*
    * Carousel Timers
@@ -192,12 +173,10 @@ useEffect(() => {
                 {/* Bookmark button */}
                 <Pressable
                   style={styles.listButton}
-                  onPress={() => toggleBookmark(item.id)}
-                >
+                  onPress={() => toggleFavourite(item.id)}>
                   <Ionicons
                     name={
-                      // Choose the icon based on bookmark state.
-                      bookmarkedAnime.includes(item.id)
+                      favourites.includes(item.id)
                         ? "bookmark-sharp"
                         : "bookmark-outline"
                     }

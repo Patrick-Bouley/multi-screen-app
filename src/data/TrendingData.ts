@@ -17,37 +17,37 @@ export interface Anime {
 // AnimeCarousel will loop through these objects and render one AnimeCard for each show.
 export const trendingAnime: Anime[] = [
   {
-    id: "1",
+    id: "solo-leveling",
     title: "Solo Leveling",
     image: "https://picsum.photos/seed/trending-clover/300/450",
     audio: "Dub | Sub",
   },
   {
-    id: "2",
+    id: "chainsaw-man",
     title: "Chainsaw Man",
     image: "https://picsum.photos/seed/trending-demon/300/450",
     audio: "Dub | Sub",
   },
   {
-    id: "3",
+    id: "spy-x-family",
     title: "Spy x Family",
     image: "https://picsum.photos/seed/trending-jujutsu/300/450",
     audio: "Dub | Sub",
   },
   {
-    id: "4",
+    id: "attack-on-titan",
     title: "Attack on Titan",
     image: "https://picsum.photos/seed/trending-attack/300/450",
     audio: "Dub | Sub",
   },
   {
-    id: "5",
+    id: "my-hero-academia",
     title: "My Hero Academia",
     image: "https://picsum.photos/seed/trending-hero/300/450",
     audio: "Dub | Sub",
   },
   {
-    id: "6",
+    id: "one-piece",
     title: "One Piece",
     image: "https://picsum.photos/seed/trending-onepiece/300/450",
     audio: "Dub | Sub",

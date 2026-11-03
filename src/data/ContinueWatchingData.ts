@@ -22,7 +22,7 @@ export interface ContinueWatchingAnime {
 // Example episodes with different completion percentages.
 export const continueWatchingAnime: ContinueWatchingAnime[] = [
   {
-    id: "1",
+    id: "black-clover",
     title: "Black Clover",
     episode: "S2 E15",
     image: "https://picsum.photos/seed/801/640/360",
@@ -30,7 +30,7 @@ export const continueWatchingAnime: ContinueWatchingAnime[] = [
     timeLeft: "8m left",
   },
   {
-    id: "2",
+    id: "demon-slayer",
     title: "Demon Slayer",
     episode: "S2 E10",
     image: "https://picsum.photos/seed/900/640/360",
@@ -38,7 +38,7 @@ export const continueWatchingAnime: ContinueWatchingAnime[] = [
     timeLeft: "18m left",
   },
   {
-    id: "3",
+    id: "frieren",
     title: "Frieren: Beyond Journey's End",
     episode: "S1 E8",
     image: "https://picsum.photos/seed/1000/640/360",
@@ -46,7 +46,7 @@ export const continueWatchingAnime: ContinueWatchingAnime[] = [
     timeLeft: "6m left",
   },
   {
-    id: "4",
+    id: "soul-eater",
     title: "Soul Eater",
     episode: "S1 E8",
     image: "https://picsum.photos/seed/1100/640/360",

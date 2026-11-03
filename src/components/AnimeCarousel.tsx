@@ -1,3 +1,17 @@
+/*
+ * AnimeCarousel Component
+ *
+ * Creates a horizontally scrolling section of anime cards.
+ *
+ * Receives a section title and an array of anime through
+ * props. It then creates an AnimeCard for each anime.
+ *
+ * Reusable for sections such as Trending in Canada and
+ * October 2026 Simulcasts.
+ *
+ * Unlike FeaturedCarousel, this carousel only scrolls
+ * when the user swipes. It does not rotate automatically.
+ */
 
 import {ScrollView, StyleSheet, Text, View,} from "react-native";
 import AnimeCard from "./AnimeCard";
@@ -17,9 +31,12 @@ const AnimeCarousel = ({ title, anime }: AnimeCarouselProps) => {
 
       {/* Horizontal row of anime posters */}
       <ScrollView
+        // This changes the scrolling to be Horizontal instead of vertical
         horizontal
+        // Hide the scrollbar to match Crunchyroll's interface.
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.cardRow}>
+        {/* Loop through the anime array and create one card per anime. */}
         {anime.map((item) => (
           <AnimeCard
             key={item.id}

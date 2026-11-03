@@ -1,3 +1,11 @@
+/*
+ * Trending Anime Data
+ *
+ * Stores the anime used in the "Trending in Canada" section.
+ *
+ * Each anime has only the information required by AnimeCard.
+ */
+
 export interface Anime {
   id: string;
   title: string;
@@ -5,6 +13,8 @@ export interface Anime {
   audio: string;
 };
 
+// Array containing the anime displayed in Trending in Canada.
+// AnimeCarousel will loop through these objects and render one AnimeCard for each show.
 export const trendingAnime: Anime[] = [
   {
     id: "1",

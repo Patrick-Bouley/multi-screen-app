@@ -1,21 +1,37 @@
+/*
+ * Header Component
+ *
+ * Reusable header for the Crunchyroll application.
+ *
+ * On Home, the header displays a temporary logo.
+ * On other screens, it can display a screen title.
+ *
+ * The Cast and Search buttons currently display alerts
+ * because those features will not be implemented.
+ */
+
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
-// Defines the information that each screen can send to the header.
+// Props define which information a parent component is allowed to pass into this Header.
+// The ? makes each property optional.
 interface HeaderProps {
   title?: string;
   isHome?: boolean;
 }
 
+// Destructure the props so we can use title and isHome directly.
+// isHome defaults to false when the parent does not provide it.
 const Header = ({ title, isHome = false }: HeaderProps) => {
   return (
     <View style={styles.header}>
       {/* Left side: logo or screen title */}
       <View style={styles.leftSection}>
         {isHome ? (
-          //temp logo for now, until I find the crunchyroll logo
+          // If isHome is true, display the temporary logo.
           <Text style={styles.logo}>◉</Text>
         ) : (
+          // Otherwise, display the title provided through props.
           <Text style={styles.title}>{title}</Text>
         )}
       </View>
@@ -23,9 +39,11 @@ const Header = ({ title, isHome = false }: HeaderProps) => {
       {/* Right side: casting and search */}
       <View style={styles.rightSection}>
         <Pressable
+        // hitSlop expands the touch area without changing the icon size.
           hitSlop={10}
           // I'm using Alert cause Im not actually making a casting capability
           onPress={() => {
+            // cosole log is here for debugging
             console.log("Cast button pressed");
             Alert.alert("Cast", "Casting selected");
           }}
@@ -38,6 +56,7 @@ const Header = ({ title, isHome = false }: HeaderProps) => {
           hitSlop={20}
           // using Alert cause Im not actually making a search capability
           onPress={() => {
+            // amd agin. needed some debugging earlier so i have consol log in here still
             console.log("Search button pressed");
             Alert.alert("Search", "Search selected");
           }}

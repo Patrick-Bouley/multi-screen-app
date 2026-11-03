@@ -7,14 +7,24 @@ import AnimeCarousel from "../../components/AnimeCarousel";
 import { trendingAnime } from "../../data/TrendingData";
 
 const Home = () => {
+  // Tracks whether the header should have a black background.
+  // It starts transparent so the featured image is visible behind it.
   const [headerBlack, setHeaderBlack] = useState(false);
+
   return (
     <View style={styles.container}>
       <ScrollView
+        // The scroll event provides information about the user's
+        // current position inside the scrollable Home screen.
         onScroll={(event) => {
+          // contentOffset.y is the vertical scrolling distance.
           const scrollY = event.nativeEvent.contentOffset.y;
+
+          // Once the user scrolls 520 units, change the header
+          // background to black. Scrolling back reverses this.
           setHeaderBlack(scrollY >= 520);
         }}
+        // This requests scroll updates frequently for responsive UI changes.
         scrollEventThrottle={16}
       >
         {/* Featured anime section */}
@@ -23,6 +33,13 @@ const Home = () => {
         <AnimeCarousel
           title="Trending in Canada"
           anime={trendingAnime}/>
+        {/* Simulcasts Section */}
+        <AnimeCarousel
+        // Temporarily reuse Trending data to test the Simulcasts layout until its own data is created. 
+          title="October 2026 Simulcasts"
+          anime={trendingAnime}/>
+        {/* Continue Watchimng Section */}
+        {/* This will have a different style of the Anime Carousel */}
       </ScrollView>
       <View pointerEvents="box-none"
         style={[styles.headerOverlay, headerBlack && styles.headerBlack,]}>
@@ -45,14 +62,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 10,
-  },
-  sectionTitle: {
-    color: "#fff",
-    fontSize: 24,
-    fontWeight: "bold",
-    marginHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 20,
   },
   headerBlack: {
     backgroundColor: "#000",

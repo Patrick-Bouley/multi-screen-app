@@ -1,3 +1,15 @@
+/*
+ * AnimeCard Component
+ *
+ * Displays a single anime inside a horizontal carousel.
+ *
+ * Each card receives an Anime object through props and
+ * uses that information to display its poster, title, and available audio.
+ *
+ * The poster and three-dot options button currently use
+ * temporary alerts. Later, these can be connected to
+ * Anime Details and My Lists functionality.
+ */
 
 import {Alert, Image, Pressable, StyleSheet, Text, View,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,6 +25,7 @@ const AnimeCard = ({ anime }: AnimeCardProps) => {
     <View style={styles.card}>
 
         {/* Anime poster */}
+        {/* Temporary interaction until Anime Details is implemented. */}
         <Pressable onPress={() => Alert.alert(anime.title)}>
             <Image
                 source={{ uri: anime.image }}
@@ -20,7 +33,10 @@ const AnimeCard = ({ anime }: AnimeCardProps) => {
         </Pressable>
 
         {/* Anime title */}
-        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{anime.title}</Text>
+        <Text style={styles.title} 
+            numberOfLines={1} 
+            // Replace the cut-off end of long titles with "...".
+            ellipsizeMode="tail">{anime.title}</Text>
 
         {/* Audio and options menu */}
         <View style={styles.audioRow}>

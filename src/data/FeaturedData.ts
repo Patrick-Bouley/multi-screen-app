@@ -1,3 +1,15 @@
+/*
+ * Featured Anime Data
+ *
+ * Stores the anime information used by FeaturedCarousel.
+ *
+ * Keeping this information separate from the UI makes
+ * the carousel easier to maintain and reuse.
+ *
+ * The images are currently Picsum placeholders rather
+ * than actual anime promotional artwork.
+ */
+
 export interface FeaturedAnime {
   id: string;
   title: string;
@@ -8,6 +20,11 @@ export interface FeaturedAnime {
   episode: string;
   image: string;
 }
+
+// An array of featured anime objects.
+// Each object must match the FeaturedAnime interface.
+// FeaturedCarousel uses this array to build its slides.
+// Adding another valid object creates another featured item.
 
 const featuredAnime: FeaturedAnime[] = [
     {
@@ -52,11 +69,11 @@ const featuredAnime: FeaturedAnime[] = [
     },
     {
         id: "5",
-        title: "Friern: Beyond Journey's End",
+        title: "Frieren: Beyond Journey's End",
         ageRating: "16+",
         audio: "Dub | Sub",
         genres: ["Action", "Adventure", "Fantasy"],
-        description: "A group of adventurers embarks on a journey to find a legendary artifact.",
+        description: "Frieren embarks on a new quest with a new apprentice to make peace with the nature of life and death.",
         episode: "Continue watching S1 E8",
         image: "https://picsum.photos/id/500/900/1300"
     }

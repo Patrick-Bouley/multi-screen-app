@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import FeaturedCarousel from "../../components/FeaturedCarousel";
 import AnimeCarousel from "../../components/AnimeCarousel";
 import { trendingAnime } from "../../data/TrendingData";
+import ContinueWatchingCarousel from "../../components/ContinueWatchingCarousel"
 
 const Home = () => {
   // Tracks whether the header should have a black background.
@@ -38,8 +39,8 @@ const Home = () => {
         // Temporarily reuse Trending data to test the Simulcasts layout until its own data is created. 
           title="October 2026 Simulcasts"
           anime={trendingAnime}/>
-        {/* Continue Watchimng Section */}
-        {/* This will have a different style of the Anime Carousel */}
+        {/* Landscape episode cards displaying saved viewing progress */}
+        <ContinueWatchingCarousel />
       </ScrollView>
       <View pointerEvents="box-none"
         style={[styles.headerOverlay, headerBlack && styles.headerBlack,]}>
@@ -65,5 +66,9 @@ const styles = StyleSheet.create({
   },
   headerBlack: {
     backgroundColor: "#000",
+    // Because we accounted for the status bar earlier to position the icons
+    // We then subtract that height so the header bar doesnt have a section cut off near the top
+    marginTop: -(StatusBar.currentHeight ?? 0),
+    paddingTop: StatusBar.currentHeight ?? 0,
   },
 });

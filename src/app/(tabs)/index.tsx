@@ -3,6 +3,8 @@ import { ScrollView, StatusBar, Text, View, StyleSheet } from "react-native";
 import { useState } from "react";
 import Header from "../../components/Header";
 import FeaturedCarousel from "../../components/FeaturedCarousel";
+import AnimeCarousel from "../../components/AnimeCarousel";
+import { trendingAnime } from "../../data/TrendingData";
 
 const Home = () => {
   const [headerBlack, setHeaderBlack] = useState(false);
@@ -17,11 +19,10 @@ const Home = () => {
       >
         {/* Featured anime section */}
         <FeaturedCarousel />
-
-        {/* Trending anime section - to be added later */}
-        <Text style={styles.sectionTitle}>
-          Trending in Canada
-        </Text>
+        {/* Trending anime section */}
+        <AnimeCarousel
+          title="Trending in Canada"
+          anime={trendingAnime}/>
       </ScrollView>
       <View pointerEvents="box-none"
         style={[styles.headerOverlay, headerBlack && styles.headerBlack,]}>

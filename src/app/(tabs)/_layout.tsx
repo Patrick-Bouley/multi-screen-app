@@ -1,8 +1,11 @@
 
 import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabLayout = () => {
+    const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
@@ -12,16 +15,15 @@ const TabLayout = () => {
         tabBarStyle: {
           backgroundColor: "#1e1b1b",
           borderTopColor: "#303030",
-          height: 65,
+          height: 60 + insets.bottom,
           paddingTop: 6,
-          paddingBottom: 8,
+          paddingBottom: insets.bottom,
         },
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: "bold",
         },
-      }}
-    >
+      }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -33,9 +35,7 @@ const TabLayout = () => {
               color={typeof color === "string" ? color : "#FFFFFF"}
             />
           ),
-        }}
-      />
-
+        }}/>
       <Tabs.Screen
         name="my-lists"
         options={{

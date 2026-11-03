@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import {Alert, Image, FlatList, Pressable, Text, View, Dimensions, StyleSheet,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import featuredAnime from "../data/HomeData";
+import featuredAnime from "../data/FeaturedData";
 
 // Temporary width used to avoid the Expo Web hydration issue.
 const screenWidth = Dimensions.get("window").width;

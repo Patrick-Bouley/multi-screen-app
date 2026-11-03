@@ -35,7 +35,6 @@ const TabLayout = () => {
             // This makes it so the androids controlls dont overlap with our nav bar
             height: 60 + insets.bottom,
             paddingBottom: insets.bottom,
-            paddingTop: 6,
             },
             tabBarLabelStyle: {
             fontSize: 11,

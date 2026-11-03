@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
         paddingVertical: 18,
     },
     indicator: {
-        width: 30,
+        width: 38,
         height: 6,
         borderRadius: 4,
         backgroundColor: "#aaa",

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     color: "#FF640A",
-    fontSize: 38,
+    fontSize: 45,
     fontWeight: "bold",
   },
   title: {

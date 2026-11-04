@@ -88,12 +88,12 @@ const TabLayout = () => {
       />
 
       <Tabs.Screen
-        name="simulcasts"
+        name="shopping"
         options={{
-          title: "Simulcasts",
+          title: "Shopping",
           tabBarIcon: ({ focused, color }) => (
-            <Ionicons
-              name={focused ? "sparkles" : "sparkles-outline"}
+            <MaterialCommunityIcons
+              name={focused ? "shopping" : "shopping-outline"}
               size={22}
               color={typeof color === "string" ? color : "#FFFFFF"}
             />

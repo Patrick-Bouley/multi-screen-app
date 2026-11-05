@@ -39,7 +39,7 @@ const Header = ({ title, isHome = false }: HeaderProps) => {
       {/* Right side: casting and search */}
       <View style={styles.rightSection}>
         <Pressable
-        // hitSlop expands the touch area without changing the icon size.
+          // hitSlop expands the touch area without changing the icon size.
           hitSlop={10}
           // I'm using Alert cause Im not actually making a casting capability
           onPress={() => {
@@ -61,11 +61,12 @@ const Header = ({ title, isHome = false }: HeaderProps) => {
             Alert.alert("Search", "Search selected");
           }}
         >
-          <Ionicons 
-            name="search-outline" 
-            size={22} 
+          <Ionicons
+            name="search-outline"
+            size={22}
             color="#fff"
-            pointerEvents="none" />
+            pointerEvents="none"
+          />
         </Pressable>
       </View>
     </View>
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingTop: 14,
-    paddingBottom: 6
+    paddingBottom: 6,
   },
   leftSection: {
     flex: 1,

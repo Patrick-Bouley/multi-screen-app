@@ -8,7 +8,6 @@
  *
  * Progress values are placeholders, not actual saved viewing history.
  */
-
 // Define the information required by each episode card.
 export interface ContinueWatchingAnime {
   id: string;

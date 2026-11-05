@@ -10,11 +10,21 @@
  * Sort and Filter are temporary buttons for now
  */
 import { useState } from "react";
-import {Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View,} from "react-native";
+import {
+  Alert,
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, MaterialIcons, } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { trendingAnime } from "../../data/TrendingData";
+import { allAnime } from "../../data/AnimeData";
 import type { Anime } from "../../data/TrendingData";
 import { router } from "expo-router";
 import { useFavourites } from "../../context/FavouritesContext";
@@ -28,12 +38,42 @@ const categories = [
   "Games",
 ];
 
+// Anime selected for the Simulcasts category.
+// Their full information is stored in AnimeData.ts.
+const simulcastIds = [
+  "dan-da-dan",
+  "blue-lock",
+  "kaiju-no-8",
+  "wind-breaker",
+  "fire-force",
+  "dr-stone",
+];
+
 const Browse = () => {
   // Tracks which category is currently selected.
   const [activeCategory, setActiveCategory] = useState("All Anime");
 
   // Access shared favourites from the root Provider.
   const { favourites, toggleFavourite } = useFavourites();
+
+  // Start with the complete anime catalogue.
+  let displayedAnime = [...allAnime];
+
+  // Only display the six selected anime in Simulcasts.
+  if (activeCategory === "Simulcasts") {
+    displayedAnime = displayedAnime.filter((anime) =>
+      simulcastIds.includes(anime.id),
+    );
+  }
+
+  // The other unfinished categories display no anime.
+  if (
+    activeCategory === "Anime Genres" ||
+    activeCategory === "Music" ||
+    activeCategory === "Games"
+  ) {
+    displayedAnime = [];
+  }
 
   // Opens a selected anime in the Details Stack.
   const openDetails = (id: string) => {
@@ -45,49 +85,36 @@ const Browse = () => {
 
   // Displays the appropriate Watchlist option.
   const showAnimeOptions = (anime: Anime) => {
-  const isSaved = favourites.includes(anime.id);
+    const isSaved = favourites.includes(anime.id);
 
-  Alert.alert(anime.title, "Choose an option", [
-    {
-      text: isSaved
-        ? "Remove from Watchlist"
-        : "Add to Watchlist",
-      onPress: () => toggleFavourite(anime.id),
-    },
-    {
-      text: "Cancel",
-      style: "cancel",
-    },
-  ]);
-};
+    Alert.alert(anime.title, "Choose an option", [
+      {
+        text: isSaved ? "Remove from Watchlist" : "Add to Watchlist",
+        onPress: () => toggleFavourite(anime.id),
+      },
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+    ]);
+  };
 
   // Creates one anime card within the two-column grid.
   const renderAnime = ({ item }: { item: Anime }) => (
     <View style={styles.card}>
-
       {/* Anime poster */}
       <Pressable onPress={() => openDetails(item.id)}>
-        <Image
-          source={{ uri: item.image }}
-          style={styles.poster}/>
+        <Image source={{ uri: item.image }} style={styles.poster} />
       </Pressable>
       {/* Anime title */}
-      <Text
-        style={styles.animeTitle}
-        numberOfLines={1}
-        ellipsizeMode="tail">
+      <Text style={styles.animeTitle} numberOfLines={1} ellipsizeMode="tail">
         {item.title}
       </Text>
       {/* Audio information and options button */}
       <View style={styles.audioRow}>
         <Text style={styles.audio}>{item.audio}</Text>
-        <Pressable
-          hitSlop={10}
-          onPress={() => showAnimeOptions(item)}>
-          <Ionicons
-            name="ellipsis-vertical"
-            size={18}
-            color="#7d7d7d"/>
+        <Pressable hitSlop={10} onPress={() => showAnimeOptions(item)}>
+          <Ionicons name="ellipsis-vertical" size={18} color="#7d7d7d" />
         </Pressable>
       </View>
     </View>
@@ -102,69 +129,73 @@ const Browse = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.categoryNavigation}
-        contentContainerStyle={styles.categoryRow}>
+        contentContainerStyle={styles.categoryRow}
+      >
         {categories.map((category) => (
-        <Pressable
+          <Pressable
             key={category}
             onPress={() => setActiveCategory(category)}
             style={[
-            styles.categoryButton,
-            activeCategory === category && styles.activeCategory,]}>
+              styles.categoryButton,
+              activeCategory === category && styles.activeCategory,
+            ]}
+          >
             <Text
-            style={[
+              style={[
                 styles.categoryText,
-                activeCategory === category && styles.activeCategoryText,]}>
-            {category}
+                activeCategory === category && styles.activeCategoryText,
+              ]}
+            >
+              {category}
             </Text>
-        </Pressable>
+          </Pressable>
         ))}
       </ScrollView>
 
       {/* Vertically scrolling anime grid */}
       <FlatList
-        data={trendingAnime}
+        data={displayedAnime}
         renderItem={renderAnime}
         keyExtractor={(item) => item.id}
-
         // Arrange the anime cards into two columns.
         numColumns={2}
-
         // Controls spacing between the two columns.
         columnWrapperStyle={styles.gridRow}
-
         contentContainerStyle={styles.gridContent}
-
         // Heading and controls appear above the anime cards.
         ListHeaderComponent={
           <View style={styles.sectionHeader}>
+            {/* Change the heading based on the selected category */}
             <Text style={styles.sectionTitle}>
-              Popular
+              {activeCategory === "Simulcasts" ? "Fall 2026" : "Popular"}
             </Text>
 
             <View style={styles.headerButtons}>
-
               {/* Temporary Sort button */}
               <Pressable
                 hitSlop={10}
-                onPress={() => Alert.alert("Sort", "Sort selected")}>
-                <MaterialIcons
-                  name="sort"
-                  size={26}
-                  color="#FFFFFF"/>
+                onPress={() => Alert.alert("Sort", "Sort selected")}
+              >
+                <MaterialIcons name="sort" size={26} color="#FFFFFF" />
               </Pressable>
 
               {/* Temporary Filter button */}
               <Pressable
                 hitSlop={10}
-                onPress={() => Alert.alert("Filter", "Filter selected")}>
-                <Ionicons
-                  name="options-outline"
-                  size={26}
-                  color="#FFFFFF"/>
+                onPress={() => Alert.alert("Filter", "Filter selected")}
+              >
+                <Ionicons name="options-outline" size={26} color="#FFFFFF" />
               </Pressable>
             </View>
           </View>
-        }/>
+        }
+        // Display a message when the selected category has no anime.
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>There's nothing here yet.</Text>
+          </View>
+        }
+      />
     </SafeAreaView>
   );
 };
@@ -252,5 +283,15 @@ const styles = StyleSheet.create({
   audio: {
     color: "#999999",
     fontSize: 13,
+  },
+  emptyContainer: {
+    paddingVertical: 80,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyText: {
+    color: "#999999",
+    fontSize: 16,
+    textAlign: "center",
   },
 });

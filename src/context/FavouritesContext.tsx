@@ -1,4 +1,3 @@
-
 /*
  * Favourites Context
  *
@@ -10,7 +9,7 @@
  *
  * Bookmarks currently reset when the app fully restarts.
  */
-import {createContext, useContext, useState, type ReactNode,} from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 // Defines the values and functions available to components
 // that use the Favourites Context.
@@ -21,18 +20,16 @@ interface FavouritesContextType {
 
 // Create the shared Context object.
 // undefined allows us to detect components that are accidentally used outside the Provider.
-const FavouritesContext = createContext<
-  FavouritesContextType | undefined
->(undefined);
+const FavouritesContext = createContext<FavouritesContextType | undefined>(
+  undefined,
+);
 
 // The Provider will wrap other React components.
 interface FavouritesProviderProps {
   children: ReactNode;
 }
 
-export const FavouritesProvider = ({
-  children,
-}: FavouritesProviderProps) => {
+export const FavouritesProvider = ({ children }: FavouritesProviderProps) => {
   // Store the IDs of every bookmarked anime.
   const [favourites, setFavourites] = useState<string[]>([]);
 
@@ -42,14 +39,12 @@ export const FavouritesProvider = ({
     setFavourites((currentFavourites) =>
       currentFavourites.includes(id)
         ? currentFavourites.filter((animeId) => animeId !== id)
-        : [...currentFavourites, id]
+        : [...currentFavourites, id],
     );
   };
 
   return (
-    <FavouritesContext.Provider
-      value={{ favourites, toggleFavourite }}
-    >
+    <FavouritesContext.Provider value={{ favourites, toggleFavourite }}>
       {children}
     </FavouritesContext.Provider>
   );
@@ -60,9 +55,7 @@ export const useFavourites = () => {
   const context = useContext(FavouritesContext);
 
   if (!context) {
-    throw new Error(
-      "useFavourites must be used within FavouritesProvider"
-    );
+    throw new Error("useFavourites must be used within FavouritesProvider");
   }
 
   return context;

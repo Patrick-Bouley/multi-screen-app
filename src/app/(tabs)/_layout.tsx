@@ -15,10 +15,10 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabLayout = () => {
-    // Get the device's safe-area measurements.
-    // These tell us how much space must be reserved
-    // for system controls, such as Android navigation buttons.
-    const insets = useSafeAreaInsets();
+  // Get the device's safe-area measurements.
+  // These tell us how much space must be reserved
+  // for system controls, such as Android navigation buttons.
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -27,38 +27,40 @@ const TabLayout = () => {
         tabBarActiveTintColor: "#FF640A",
         tabBarInactiveTintColor: "#FFFFFF",
         tabBarStyle: {
-            // The bottom Nav Bar colors
-            backgroundColor: "#1e1b1b",
-            borderTopColor: "#303030",
+          // The bottom Nav Bar colors
+          backgroundColor: "#1e1b1b",
+          borderTopColor: "#303030",
 
-            // Add the devices bottom safe area to our tab bar height. 
-            // This makes it so the androids controlls dont overlap with our nav bar
-            height: 60 + insets.bottom,
-            paddingBottom: insets.bottom,
-            },
-            tabBarLabelStyle: {
-            fontSize: 11,
-            fontWeight: "bold",
-            },
-      }}>
+          // Add the devices bottom safe area to our tab bar height.
+          // This makes it so the androids controlls dont overlap with our nav bar
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "bold",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-            // Expo Router provides focused and color automatically.
-            // focused is true when this tab is selected.
-            // This will change them between filled and outlined icons as well.
+          // Expo Router provides focused and color automatically.
+          // focused is true when this tab is selected.
+          // This will change them between filled and outlined icons as well.
 
-            // The typeof check ensures the icon receives a string, 
-            // there was an error with just using color={color} and this is how I got past it
-            tabBarIcon: ({ focused, color }) => (
+          // The typeof check ensures the icon receives a string,
+          // there was an error with just using color={color} and this is how I got past it
+          tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={22}
               color={typeof color === "string" ? color : "#FFFFFF"}
             />
           ),
-        }}/>
+        }}
+      />
       <Tabs.Screen
         name="my-lists"
         options={{

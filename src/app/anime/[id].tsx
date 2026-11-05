@@ -10,7 +10,16 @@
  * anime from the same Watchlist used by Home and My Lists.
  */
 import { useState } from "react";
-import {Alert, Image, Pressable, ScrollView, Share, StyleSheet, Text, View,} from "react-native";
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -38,11 +47,9 @@ const AnimeDetails = () => {
         <Pressable
           style={styles.backButton}
           hitSlop={10}
-          onPress={() => router.back()}>
-          <Ionicons
-            name="arrow-back"
-            size={26}
-            color="#FFFFFF"/>
+          onPress={() => router.back()}
+        >
+          <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
         </Pressable>
 
         <View style={styles.notFound}>
@@ -69,59 +76,48 @@ const AnimeDetails = () => {
   // Options menu reuses the same shared Watchlist.
   const showOptions = () => {
     Alert.alert(anime.title, "Choose an option", [
-      {text: isSaved
-          ? "Remove from Watchlist"
-          : "Add to Watchlist",
+      {
+        text: isSaved ? "Remove from Watchlist" : "Add to Watchlist",
         onPress: () => toggleFavourite(anime.id),
       },
-      { text: "Cancel",
-        style: "cancel",
-      },
+      { text: "Cancel", style: "cancel" },
     ]);
   };
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         {/* Large promotional image and overlaid top navigation */}
         <View style={styles.heroContainer}>
           <Image
             source={{
               uri: anime.featuredImage ?? anime.image,
             }}
-            style={styles.heroImage}/>
+            style={styles.heroImage}
+          />
 
           <View style={styles.topNavigation}>
             <Pressable
               style={styles.backButton}
               hitSlop={10}
-              onPress={() => router.back()}>
-            <Ionicons
-              name="arrow-back"
-              size={26}
-              color="#FFFFFF"/>
+              onPress={() => router.back()}
+            >
+              <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
             </Pressable>
 
             <View style={styles.topButtons}>
               <Pressable
                 hitSlop={10}
-                onPress={() =>
-                  Alert.alert("Cast", "Cast selected")}>
-                <Ionicons
-                  name="tv-outline"
-                  size={26}
-                  color="#FFFFFF"/>
+                onPress={() => Alert.alert("Cast", "Cast selected")}
+              >
+                <Ionicons name="tv-outline" size={26} color="#FFFFFF" />
               </Pressable>
 
               <Pressable hitSlop={10} onPress={showOptions}>
-                <Ionicons
-                  name="ellipsis-vertical"
-                  size={25}
-                  color="#FFFFFF"/>
+                <Ionicons name="ellipsis-vertical" size={25} color="#FFFFFF" />
               </Pressable>
             </View>
           </View>
@@ -139,7 +135,9 @@ const AnimeDetails = () => {
             <Text style={styles.metadataText}>{anime.audio}</Text>
 
             {anime.genres && anime.genres.length > 0 && (
-              <Text style={styles.metadataText}>• {anime.genres.join(", ")}</Text>
+              <Text style={styles.metadataText}>
+                • {anime.genres.join(", ")}
+              </Text>
             )}
           </View>
 
@@ -150,14 +148,10 @@ const AnimeDetails = () => {
 
               <Text style={styles.ratingText}>
                 Average: {anime.ratingAverage}
-                {anime.ratingCount
-                  ? ` (${anime.ratingCount})`
-                  : ""}</Text>
+                {anime.ratingCount ? ` (${anime.ratingCount})` : ""}
+              </Text>
 
-              <Ionicons
-                name="chevron-down"
-                size={16}
-                color="#FFFFFF"/>
+              <Ionicons name="chevron-down" size={16} color="#FFFFFF" />
             </View>
           )}
 
@@ -165,22 +159,19 @@ const AnimeDetails = () => {
           <View style={styles.actionRow}>
             <Pressable
               style={styles.actionButton}
-              onPress={() => toggleFavourite(anime.id)}>
+              onPress={() => toggleFavourite(anime.id)}
+            >
               <Ionicons
                 name={isSaved ? "checkmark" : "add"}
                 size={28}
-                color="#FF640A"/>
+                color="#FF640A"
+              />
 
               <Text style={styles.actionText}>My List</Text>
             </Pressable>
 
-            <Pressable
-              style={styles.actionButton}
-              onPress={shareAnime}>
-              <Ionicons
-                name="share-social-outline"
-                size={25}
-                color="#FF640A"/>
+            <Pressable style={styles.actionButton} onPress={shareAnime}>
+              <Ionicons name="share-social-outline" size={25} color="#FF640A" />
 
               <Text style={styles.actionText}>Share</Text>
             </Pressable>
@@ -189,14 +180,16 @@ const AnimeDetails = () => {
           {/* Description preview. Expands when More Details is tapped. */}
           <Text
             style={styles.description}
-            numberOfLines={showMore ? undefined : 3}>
+            numberOfLines={showMore ? undefined : 3}
+          >
             {anime.description ??
               "More information about this anime is coming soon."}
           </Text>
 
           <Pressable
             style={styles.moreDetailsButton}
-            onPress={() => setShowMore(!showMore)}>
+            onPress={() => setShowMore(!showMore)}
+          >
             <Text style={styles.moreDetailsText}>
               {showMore ? "Show Less" : "More Details"}
             </Text>
@@ -209,14 +202,10 @@ const AnimeDetails = () => {
         <Pressable
           style={styles.watchButton}
           onPress={() =>
-            Alert.alert(
-              "Watch Anime",
-              anime.episode ?? "Start Watching E1"
-            )} >
-          <Ionicons
-            name="play-outline"
-            size={26}
-            color="#000000"/>
+            Alert.alert("Watch Anime", anime.episode ?? "Start Watching E1")
+          }
+        >
+          <Ionicons name="play-outline" size={26} color="#000000" />
 
           <Text style={styles.watchText} numberOfLines={1}>
             {anime.episode ?? "Start Watching E1"}
@@ -225,11 +214,13 @@ const AnimeDetails = () => {
 
         <Pressable
           style={styles.bookmarkButton}
-          onPress={() => toggleFavourite(anime.id)}>
+          onPress={() => toggleFavourite(anime.id)}
+        >
           <Ionicons
             name={isSaved ? "bookmark" : "bookmark-outline"}
             size={26}
-            color="#FF640A"/>
+            color="#FF640A"
+          />
         </Pressable>
       </View>
     </SafeAreaView>
@@ -289,7 +280,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: 14,
-    textAlign: "center"
+    textAlign: "center",
   },
   metadataRow: {
     flexDirection: "row",
@@ -343,14 +334,14 @@ const styles = StyleSheet.create({
   actionText: {
     color: "#FF640A",
     fontSize: 12,
-    textAlign: "center"
+    textAlign: "center",
   },
   description: {
     color: "#FFFFFF",
     fontSize: 14,
     lineHeight: 21,
     marginBottom: 12,
-    textAlign: "center"
+    textAlign: "center",
   },
   moreDetailsButton: {
     alignItems: "center",

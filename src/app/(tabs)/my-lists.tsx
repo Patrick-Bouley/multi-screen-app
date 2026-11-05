@@ -11,7 +11,18 @@
  * per row to match the Crunchyroll reference.
  */
 import { useState } from "react";
-import { Alert, FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View,} from "react-native";
+import {
+  Alert,
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -20,11 +31,7 @@ import { allAnime } from "../../data/AnimeData";
 import type { Anime } from "../../data/AnimeData";
 import { useFavourites } from "../../context/FavouritesContext";
 
-type ListCategory =
-  | "Watchlist"
-  | "Crunchylists"
-  | "History"
-  | "Downloads";
+type ListCategory = "Watchlist" | "Crunchylists" | "History" | "Downloads";
 
 const categories: ListCategory[] = [
   "Watchlist",
@@ -45,9 +52,7 @@ const MyLists = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   // Convert bookmarked IDs into full anime objects.
-  const savedAnime = allAnime.filter((anime) =>
-    favourites.includes(anime.id)
-  );
+  const savedAnime = allAnime.filter((anime) => favourites.includes(anime.id));
 
   const createList = () => {
     const name = newListName.trim();
@@ -87,10 +92,7 @@ const MyLists = () => {
     <View style={styles.watchlistCard}>
       {/* Poster opens the Details screen. */}
       <Pressable onPress={() => openDetails(item.id)}>
-        <Image
-          source={{ uri: item.image }}
-          style={styles.poster}
-        />
+        <Image source={{ uri: item.image }} style={styles.poster} />
       </Pressable>
 
       <View style={styles.cardInformation}>
@@ -110,28 +112,16 @@ const MyLists = () => {
           <View style={styles.cardButtons}>
             {/* Remove this anime from the shared Watchlist. */}
             {/* The icon reflects whether this anime is saved. */}
-            <Pressable
-            hitSlop={10}
-            onPress={() => toggleFavourite(item.id)}>
-            <Ionicons
-                name={
-                favourites.includes(item.id)
-                    ? "heart"
-                    : "heart-outline"
-                }
-                size={25}
-                color="#FFFFFF"/>
-            </Pressable>
-
-            <Pressable
-              hitSlop={10}
-              onPress={() => showOptions(item)}
-            >
+            <Pressable hitSlop={10} onPress={() => toggleFavourite(item.id)}>
               <Ionicons
-                name="ellipsis-vertical"
-                size={22}
+                name={favourites.includes(item.id) ? "heart" : "heart-outline"}
+                size={25}
                 color="#FFFFFF"
               />
+            </Pressable>
+
+            <Pressable hitSlop={10} onPress={() => showOptions(item)}>
+              <Ionicons name="ellipsis-vertical" size={22} color="#FFFFFF" />
             </Pressable>
           </View>
         </View>
@@ -143,16 +133,14 @@ const MyLists = () => {
   const renderEmptyState = (
     icon: React.ComponentProps<typeof Ionicons>["name"],
     title: string,
-    description: string
+    description: string,
   ) => (
     <View style={styles.emptyContainer}>
       <Ionicons name={icon} size={80} color="#FF640A" />
 
       <Text style={styles.emptyTitle}>{title}</Text>
 
-      <Text style={styles.emptyDescription}>
-        {description}
-      </Text>
+      <Text style={styles.emptyDescription}>{description}</Text>
     </View>
   );
 
@@ -173,15 +161,13 @@ const MyLists = () => {
             onPress={() => setActiveCategory(category)}
             style={[
               styles.categoryButton,
-              activeCategory === category &&
-                styles.activeCategory,
+              activeCategory === category && styles.activeCategory,
             ]}
           >
             <Text
               style={[
                 styles.categoryText,
-                activeCategory === category &&
-                  styles.activeCategoryText,
+                activeCategory === category && styles.activeCategoryText,
               ]}
             >
               {category}
@@ -199,9 +185,7 @@ const MyLists = () => {
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
-                Recent Activity
-              </Text>
+              <Text style={styles.sectionTitle}>Recent Activity</Text>
 
               <View style={styles.headerButtons}>
                 <Pressable
@@ -209,15 +193,11 @@ const MyLists = () => {
                   onPress={() =>
                     Alert.alert(
                       "Sort",
-                      "Watchlist sorting is not configured yet."
+                      "Watchlist sorting is not configured yet.",
                     )
                   }
                 >
-                  <MaterialIcons
-                    name="sort"
-                    size={26}
-                    color="#FFFFFF"
-                  />
+                  <MaterialIcons name="sort" size={26} color="#FFFFFF" />
                 </Pressable>
 
                 <Pressable
@@ -225,15 +205,11 @@ const MyLists = () => {
                   onPress={() =>
                     Alert.alert(
                       "Filter",
-                      "Watchlist filtering is not configured yet."
+                      "Watchlist filtering is not configured yet.",
                     )
                   }
                 >
-                  <Ionicons
-                    name="options-outline"
-                    size={26}
-                    color="#FFFFFF"
-                  />
+                  <Ionicons name="options-outline" size={26} color="#FFFFFF" />
                 </Pressable>
               </View>
             </View>
@@ -241,7 +217,7 @@ const MyLists = () => {
           ListEmptyComponent={renderEmptyState(
             "bookmark-outline",
             "Your Watchlist is Empty",
-            "Add anime from Home or Browse to see them here."
+            "Add anime from Home or Browse to see them here.",
           )}
         />
       )}
@@ -252,23 +228,14 @@ const MyLists = () => {
             renderEmptyState(
               "albums-outline",
               "You don't have any Crunchylists yet.",
-              "Let's create one!"
+              "Let's create one!",
             )
           ) : (
             <ScrollView style={styles.customListScroll}>
               {customLists.map((name, index) => (
-                <View
-                  key={`${name}-${index}`}
-                  style={styles.customListRow}
-                >
-                  <Ionicons
-                    name="list-outline"
-                    size={24}
-                    color="#FF640A"
-                  />
-                  <Text style={styles.customListName}>
-                    {name}
-                  </Text>
+                <View key={`${name}-${index}`} style={styles.customListRow}>
+                  <Ionicons name="list-outline" size={24} color="#FF640A" />
+                  <Text style={styles.customListName}>{name}</Text>
                 </View>
               ))}
             </ScrollView>
@@ -276,21 +243,19 @@ const MyLists = () => {
         </View>
       )}
 
-      {activeCategory === "History" && (
+      {activeCategory === "History" &&
         renderEmptyState(
           "time-outline",
           "No Watch History",
-          "Episodes you watch will appear here."
-        )
-      )}
+          "Episodes you watch will appear here.",
+        )}
 
-      {activeCategory === "Downloads" && (
+      {activeCategory === "Downloads" &&
         renderEmptyState(
           "download-outline",
           "No Downloads",
-          "Downloaded episodes will appear here."
-        )
-      )}
+          "Downloaded episodes will appear here.",
+        )}
 
       {/* Android-compatible dialog for entering a list name.
           Alert.prompt() is not supported on Android. */}
@@ -302,9 +267,7 @@ const MyLists = () => {
       >
         <View style={styles.modalBackdrop}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              Create New List
-            </Text>
+            <Text style={styles.modalTitle}>Create New List</Text>
 
             <TextInput
               value={newListName}

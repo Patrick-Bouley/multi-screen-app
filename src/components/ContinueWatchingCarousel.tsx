@@ -8,7 +8,7 @@
  * but renders landscape episode cards instead of posters.
  */
 
-import {ScrollView, StyleSheet, Text, View,} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import ContinueWatchingCard from "./ContinueWatchingCard";
 
 // Import the array of partially watched episodes.
@@ -19,9 +19,7 @@ const ContinueWatchingCarousel = () => {
   return (
     <View style={styles.container}>
       {/* Section title */}
-      <Text style={styles.sectionTitle}>
-        Continue Watching
-      </Text>
+      <Text style={styles.sectionTitle}>Continue Watching</Text>
 
       {/* Horizontally scrolling episode cards */}
       <ScrollView
@@ -31,10 +29,7 @@ const ContinueWatchingCarousel = () => {
       >
         {/* Create one episode card for each data object */}
         {continueWatchingAnime.map((item) => (
-          <ContinueWatchingCard
-            key={item.id}
-            anime={item}
-          />
+          <ContinueWatchingCard key={item.id} anime={item} />
         ))}
       </ScrollView>
     </View>

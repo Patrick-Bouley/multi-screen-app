@@ -1,11 +1,25 @@
-
 import { ScrollView, StatusBar, Text, View, StyleSheet } from "react-native";
 import { useState } from "react";
 import Header from "../../components/Header";
 import FeaturedCarousel from "../../components/FeaturedCarousel";
 import AnimeCarousel from "../../components/AnimeCarousel";
 import { trendingAnime } from "../../data/TrendingData";
-import ContinueWatchingCarousel from "../../components/ContinueWatchingCarousel"
+import { allAnime } from "../../data/AnimeData";
+import ContinueWatchingCarousel from "../../components/ContinueWatchingCarousel";
+
+const simulcastIds = [
+  "dan-da-dan",
+  "blue-lock",
+  "kaiju-no-8",
+  "wind-breaker",
+  "fire-force",
+  "dr-stone",
+];
+
+// Retrieve the corresponding anime objects from the master catalogue.
+const simulcastAnime = allAnime.filter((anime) =>
+  simulcastIds.includes(anime.id),
+);
 
 const Home = () => {
   // Tracks whether the header should have a black background.
@@ -31,19 +45,20 @@ const Home = () => {
         {/* Featured anime section */}
         <FeaturedCarousel />
         {/* Trending anime section */}
-        <AnimeCarousel
-          title="Trending in Canada"
-          anime={trendingAnime}/>
+        <AnimeCarousel title="Trending in Canada" anime={trendingAnime} />
         {/* Simulcasts Section */}
         <AnimeCarousel
-        // Temporarily reuse Trending data to test the Simulcasts layout until its own data is created. 
+          // Temporarily reuse Trending data to test the Simulcasts layout until its own data is created.
           title="October 2026 Simulcasts"
-          anime={trendingAnime}/>
+          anime={simulcastAnime}
+        />
         {/* Landscape episode cards displaying saved viewing progress */}
         <ContinueWatchingCarousel />
       </ScrollView>
-      <View pointerEvents="box-none"
-        style={[styles.headerOverlay, headerBlack && styles.headerBlack,]}>
+      <View
+        pointerEvents="box-none"
+        style={[styles.headerOverlay, headerBlack && styles.headerBlack]}
+      >
         <Header isHome={true} />
       </View>
     </View>

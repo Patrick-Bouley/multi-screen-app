@@ -28,42 +28,29 @@ const ContinueWatchingCard = ({ anime }: ContinueWatchingCardProps) => {
       {/* Entire episode image is pressable */}
       <Pressable
         style={styles.imageContainer}
-        onPress={() =>
-          Alert.alert("Continue Watching", anime.title)
-        }>
+        onPress={() => Alert.alert("Continue Watching", anime.title)}
+      >
         {/* Episode thumbnail */}
-        <Image
-          source={{ uri: anime.image }}
-          style={styles.image}/>
+        <Image source={{ uri: anime.image }} style={styles.image} />
         {/* Information displayed over the bottom of the thumbnail */}
         <View style={styles.informationOverlay}>
           {/* Play icon positioned to the left of the episode information */}
           <View style={styles.playIcon}>
-            <Ionicons
-              name="play"
-              size={30}
-              color="#FFFFFF"/>
+            <Ionicons name="play" size={30} color="#FFFFFF" />
           </View>
           {/* Anime title and episode number */}
           <View style={styles.episodeInformation}>
-            <Text
-              style={styles.title}
-              numberOfLines={1}
-              ellipsizeMode="tail">
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
               {anime.title}
             </Text>
 
-            <Text
-              style={styles.episode}
-              numberOfLines={1}>
+            <Text style={styles.episode} numberOfLines={1}>
               {anime.episode}
             </Text>
           </View>
 
           {/* Remaining watch time displayed on the right */}
-          <Text style={styles.timeLeft}>
-            {anime.timeLeft}
-          </Text>
+          <Text style={styles.timeLeft}>{anime.timeLeft}</Text>
         </View>
 
         {/* Episode watch-progress bar */}

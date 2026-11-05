@@ -1,4 +1,3 @@
-
 /*
  * Anime Data
  *
@@ -34,7 +33,6 @@ export interface Anime {
 
 // Master catalogue used throughout the application.
 export const allAnime: Anime[] = [
-
   // =========================================================
   // Featured Anime
   // =========================================================
@@ -53,7 +51,7 @@ export const allAnime: Anime[] = [
       "Asta and Yuno dream of becoming the Wizard King, but they are born without magic in a world where magic is everything.",
     episode: "Continue Watching S2 E15",
     ratingAverage: 4.5,
-    ratingCount: "34.6K"
+    ratingCount: "34.6K",
   },
 
   {
@@ -70,7 +68,7 @@ export const allAnime: Anime[] = [
       "Tanjiro Kamado joins the Demon Slayer Corps to find a cure for his sister and avenge his family.",
     episode: "Continue Watching S2 E10",
     ratingAverage: 5,
-    ratingCount: "45.6K"
+    ratingCount: "45.6K",
   },
 
   {
@@ -87,7 +85,7 @@ export const allAnime: Anime[] = [
       "Yuji Itadori joins a secret organization to fight curses and protect humanity.",
     episode: "Start Watching Episode 1",
     ratingAverage: 4.3,
-    ratingCount: "42.6K"
+    ratingCount: "42.6K",
   },
 
   {
@@ -104,7 +102,7 @@ export const allAnime: Anime[] = [
       "Maka Albarn and her weapon partner, Soul Eater, attend the Death Weapon Meister Academy to become skilled fighters against evil souls.",
     episode: "Start Watching Episode 1",
     ratingAverage: 4,
-    ratingCount: "18.3K"
+    ratingCount: "18.3K",
   },
 
   {
@@ -121,7 +119,7 @@ export const allAnime: Anime[] = [
       "Frieren embarks on a new quest with a new apprentice to make peace with the nature of life and death.",
     episode: "Continue watching S1 E8",
     ratingAverage: 4.7,
-    ratingCount: "34.6K"
+    ratingCount: "34.6K",
   },
 
   {
@@ -138,7 +136,7 @@ export const allAnime: Anime[] = [
       "After losing his mother and almost his brother in a transmutaion accident, Elric embarks on an adventure to save his brothers physical form",
     episode: "Start Watching Episode 1",
     ratingAverage: 4.6,
-    ratingCount: "47.6K"
+    ratingCount: "47.6K",
   },
 
   // =========================================================
@@ -155,7 +153,7 @@ export const allAnime: Anime[] = [
     description:
       "Sung Jinwoo, once known as the world's weakest hunter, gains the mysterious ability to level up after surviving a deadly dungeon. With his newfound powers, he sets out to uncover the secrets behind the monsters threatening humanity.",
     ratingAverage: 4.7,
-    ratingCount: "65.3K"
+    ratingCount: "65.3K",
   },
 
   {
@@ -168,7 +166,7 @@ export const allAnime: Anime[] = [
     description:
       "Denji is a struggling young devil hunter who merges with his chainsaw devil companion, Pochita, after being betrayed. Reborn as Chainsaw Man, he joins a government organization that hunts dangerous devils.",
     ratingAverage: 4.5,
-    ratingCount: "87.3K"
+    ratingCount: "87.3K",
   },
 
   {
@@ -181,7 +179,7 @@ export const allAnime: Anime[] = [
     description:
       "A skilled spy must create a fake family to complete a secret mission. Unaware that his new wife is an assassin and his adopted daughter can read minds, the three attempt to live together while hiding their true identities.",
     ratingAverage: 4.7,
-    ratingCount: "31.4K"
+    ratingCount: "31.4K",
   },
 
   {
@@ -194,7 +192,7 @@ export const allAnime: Anime[] = [
     description:
       "After giant humanoid creatures known as Titans destroy his hometown, Eren Yeager joins the military to fight back. Alongside his friends, he uncovers shocking secrets about the Titans and the world beyond the walls.",
     ratingAverage: 4.4,
-    ratingCount: "43.8"
+    ratingCount: "43.8",
   },
 
   {
@@ -207,7 +205,7 @@ export const allAnime: Anime[] = [
     description:
       "In a world where most people possess superpowers called Quirks, Izuku Midoriya dreams of becoming a hero despite being born without one. After meeting the legendary hero All Might, he begins training at U.A. High School.",
     ratingAverage: 4.3,
-    ratingCount: "38.8K"
+    ratingCount: "38.8K",
   },
 
   {
@@ -220,7 +218,95 @@ export const allAnime: Anime[] = [
     description:
       "Monkey D. Luffy sets sail on a grand adventure to find the legendary treasure known as the One Piece and become King of the Pirates. Along the way, he gathers a loyal crew and faces powerful enemies across the seas.",
     ratingAverage: 4.9,
-    ratingCount: "78.4K"
+    ratingCount: "78.4K",
+  },
+
+  // =========================================================
+  // Simulcast Anime
+  // =========================================================
+
+  {
+    id: "dan-da-dan",
+    title: "DAN DA DAN",
+    image: "https://picsum.photos/seed/dandadan/300/450",
+    audio: "Dub | Sub",
+    ageRating: "16+",
+    genres: ["Action", "Comedy", "Supernatural"],
+    description:
+      "Momo Ayase believes in ghosts, while Okarun believes in aliens. After challenging each other's beliefs, they discover that both supernatural spirits and extraterrestrial beings are real, leading them into increasingly dangerous adventures.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
+  },
+
+  {
+    id: "blue-lock",
+    title: "BLUE LOCK",
+    image: "https://picsum.photos/seed/bluelock/300/450",
+    audio: "Dub | Sub",
+    ageRating: "14+",
+    genres: ["Sports", "Drama"],
+    description:
+      "Yoichi Isagi joins an intense training program designed to create Japan's greatest soccer striker. Competing against hundreds of talented players, he must develop his skills and overcome his rivals to become the best.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
+  },
+
+  {
+    id: "kaiju-no-8",
+    title: "Kaiju No. 8",
+    image: "https://picsum.photos/seed/kaijuno8/300/450",
+    audio: "Dub | Sub",
+    ageRating: "16+",
+    genres: ["Action", "Sci-Fi"],
+    description:
+      "Kafka Hibino dreams of joining the Defense Force to protect Japan from giant monsters. After an unusual encounter transforms him into a kaiju, he must hide his secret while pursuing his dream of becoming a hero.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
+  },
+
+  {
+    id: "wind-breaker",
+    title: "WIND BREAKER",
+    image: "https://picsum.photos/seed/windbreaker/300/450",
+    audio: "Dub | Sub",
+    ageRating: "14+",
+    genres: ["Action", "Drama"],
+    description:
+      "Haruka Sakura enrolls at Furin High School hoping to become the strongest fighter. He soon discovers that the school's students use their strength to protect their town, challenging his ideas about what it means to be strong.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
+  },
+
+  {
+    id: "fire-force",
+    title: "Fire Force",
+    image: "https://picsum.photos/seed/fireforce/300/450",
+    audio: "Dub | Sub",
+    ageRating: "16+",
+    genres: ["Action", "Supernatural"],
+    description:
+      "Shinra Kusakabe joins Special Fire Force Company 8 to battle people who mysteriously burst into flames. As he investigates these incidents, he uncovers secrets connected to his family's tragic past.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
+  },
+
+  {
+    id: "dr-stone",
+    title: "Dr. STONE",
+    image: "https://picsum.photos/seed/drstone/300/450",
+    audio: "Dub | Sub",
+    ageRating: "14+",
+    genres: ["Adventure", "Sci-Fi"],
+    description:
+      "After a mysterious event turns humanity into stone, scientific genius Senku Ishigami awakens thousands of years later. Using his knowledge of science, he sets out to rebuild civilization and uncover the cause of humanity's petrification.",
+    episode: "Start Watching E1",
+    ratingAverage: 4.9,
+    ratingCount: "78.4K",
   },
 ];
 

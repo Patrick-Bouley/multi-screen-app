@@ -11,7 +11,7 @@ export interface Anime {
   title: string;
   image: string;
   audio: string;
-};
+}
 
 // Array containing the anime displayed in Trending in Canada.
 // AnimeCarousel will loop through these objects and render one AnimeCard for each show.

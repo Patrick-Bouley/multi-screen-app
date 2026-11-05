@@ -13,14 +13,14 @@
  * when the user swipes. It does not rotate automatically.
  */
 
-import {ScrollView, StyleSheet, Text, View,} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import AnimeCard from "./AnimeCard";
 import type { Anime } from "../data/TrendingData";
 
 // Information the carousel expects from its parent screen.
 interface AnimeCarouselProps {
-    title: string;
-    anime: Anime[];
+  title: string;
+  anime: Anime[];
 }
 
 const AnimeCarousel = ({ title, anime }: AnimeCarouselProps) => {
@@ -35,13 +35,11 @@ const AnimeCarousel = ({ title, anime }: AnimeCarouselProps) => {
         horizontal
         // Hide the scrollbar to match Crunchyroll's interface.
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.cardRow}>
+        contentContainerStyle={styles.cardRow}
+      >
         {/* Loop through the anime array and create one card per anime. */}
         {anime.map((item) => (
-          <AnimeCard
-            key={item.id}
-            anime={item}
-          />
+          <AnimeCard key={item.id} anime={item} />
         ))}
       </ScrollView>
     </View>
@@ -51,19 +49,19 @@ const AnimeCarousel = ({ title, anime }: AnimeCarouselProps) => {
 export default AnimeCarousel;
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 12,
-        marginBottom: 20,
-    },
-    sectionTitle: {
-        color: "#FFFFFF",
-        fontSize: 16,
-        fontWeight: "bold",
-        marginHorizontal: 16,
-        marginBottom: 16,
-    },
-    cardRow: {
-        paddingHorizontal: 16,
-        gap: 12,
-    },
+  container: {
+    marginTop: 12,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
+  cardRow: {
+    paddingHorizontal: 16,
+    gap: 12,
+  },
 });

@@ -12,7 +12,16 @@
  *
  */
 import { useState, useEffect, useRef } from "react";
-import {Alert, Image, FlatList, Pressable, Text, View, Dimensions, StyleSheet,} from "react-native";
+import {
+  Alert,
+  Image,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import featuredAnime from "../data/FeaturedData";
 import { useFavourites } from "../context/FavouritesContext";
@@ -36,10 +45,10 @@ const FeaturedCarousel = () => {
   const [progress, setProgress] = useState(0);
 
   // Retrieve shared bookmarks and the toggle function
-// from the Favourites Context.
-const { favourites, toggleFavourite } = useFavourites();
+  // from the Favourites Context.
+  const { favourites, toggleFavourite } = useFavourites();
 
- /*
+  /*
    * Carousel Timers
    *
    * This effect runs when the component first mounts and
@@ -50,50 +59,50 @@ const { favourites, toggleFavourite } = useFavourites();
    * 2. A timeout that automatically advances the carousel.
    */
 
-useEffect(() => {
-  // Reset the timer when the active anime changes.
-  setProgress(0);
+  useEffect(() => {
+    // Reset the timer when the active anime changes.
+    setProgress(0);
 
-  // Track elapsed time for the progress bar.
-  let elapsed = 0;
+    // Track elapsed time for the progress bar.
+    let elapsed = 0;
 
-  // Update the progress bar every 100 milliseconds.
-  const progressTimer = setInterval(() => {
-    elapsed += 100;
+    // Update the progress bar every 100 milliseconds.
+    const progressTimer = setInterval(() => {
+      elapsed += 100;
 
-    // Convert elapsed time into a percentage.
-    // The indicator reaches 100% after 7000 milliseconds.
-    // Math.min prevents the percentage from exceeding 100.
-    const percentage = Math.min((elapsed / 7000) * 100, 100);
+      // Convert elapsed time into a percentage.
+      // The indicator reaches 100% after 7000 milliseconds.
+      // Math.min prevents the percentage from exceeding 100.
+      const percentage = Math.min((elapsed / 7000) * 100, 100);
 
-    setProgress(percentage);
-  }, 100);
+      setProgress(percentage);
+    }, 100);
 
-  // Automatically switch to the next featured anime after 8 seconds.
-  const carouselTimer = setTimeout(() => {
-    // Move to the next index.
-    // % returns to index 0 after reaching the last anime.
-    const nextIndex = (activeIndex + 1) % featuredAnime.length;
+    // Automatically switch to the next featured anime after 8 seconds.
+    const carouselTimer = setTimeout(() => {
+      // Move to the next index.
+      // % returns to index 0 after reaching the last anime.
+      const nextIndex = (activeIndex + 1) % featuredAnime.length;
 
-    // Use our FlatList reference to scroll to the next anime.
-    // Optional chaining prevents an error if the ref is unavailable.
-    carouselRef.current?.scrollToIndex({
-      index: nextIndex,
-      animated: true,
-    });
+      // Use our FlatList reference to scroll to the next anime.
+      // Optional chaining prevents an error if the ref is unavailable.
+      carouselRef.current?.scrollToIndex({
+        index: nextIndex,
+        animated: true,
+      });
 
-    // Update React state so the active indicator also changes.
-    setActiveIndex(nextIndex);
-  }, 8000);
+      // Update React state so the active indicator also changes.
+      setActiveIndex(nextIndex);
+    }, 8000);
 
-  // Cleanup runs before this effect starts again,
-  // and when the component is removed from the screen.
-  // This prevents old timers from continuing to run.
-  return () => {
-    clearInterval(progressTimer);
-    clearTimeout(carouselTimer);
-  };
-}, [activeIndex]);
+    // Cleanup runs before this effect starts again,
+    // and when the component is removed from the screen.
+    // This prevents old timers from continuing to run.
+    return () => {
+      clearInterval(progressTimer);
+      clearTimeout(carouselTimer);
+    };
+  }, [activeIndex]);
 
   return (
     <View>
@@ -113,16 +122,16 @@ useEffect(() => {
         keyExtractor={(item) => item.id}
         // Runs when a swipe finishes moving.
         onMomentumScrollEnd={(event) => {
-            // Read how far the list has moved horizontally.
-            const offset = event.nativeEvent.contentOffset.x;
-            // Divide by slide width to determine the selected index.
-            // Round to the nearest whole slide.
-            const index = Math.round(offset / screenWidth);
+          // Read how far the list has moved horizontally.
+          const offset = event.nativeEvent.contentOffset.x;
+          // Divide by slide width to determine the selected index.
+          // Round to the nearest whole slide.
+          const index = Math.round(offset / screenWidth);
 
-            // Only update state if the selected anime has changed.
-            if (index !== activeIndex) {
-                setActiveIndex(index);
-            }
+          // Only update state if the selected anime has changed.
+          if (index !== activeIndex) {
+            setActiveIndex(index);
+          }
         }}
         // FlatList calls renderItem for each anime object.
         // item represents the current anime being rendered.
@@ -135,55 +144,49 @@ useEffect(() => {
                 router.push({
                   pathname: "/anime/[id]",
                   params: { id: item.id },
-                })}>
+                })
+              }
+            >
               <Image
                 source={{ uri: item.image }}
-                style={styles.featuredImage}/>
+                style={styles.featuredImage}
+              />
             </Pressable>
             {/* Information displayed over the bottom of the image */}
             <View style={styles.featuredInformation}>
-                {/* Anime title */}
-                <Text style={styles.animeTitle}>
-                    {item.title}
-                </Text>
+              {/* Anime title */}
+              <Text style={styles.animeTitle}>{item.title}</Text>
 
-                {/* Age rating, audio, and genres */}
-                <View style={styles.animeMetadata}>
-                    <Text style={styles.ageRating}>{item.ageRating}</Text>
-                    <Text style={styles.separator}>  ◆  </Text>
-                    <Text style={styles.metadataText}>{item.audio}</Text>
-                    <Text style={styles.separator}>  ◆  </Text>
-                    <Text style={styles.metadataText}>{item.genres.join(", ")}</Text>
-                </View>
-
-                {/* Anime description */}
-                <Text style={styles.description}>
-                    {item.description}
+              {/* Age rating, audio, and genres */}
+              <View style={styles.animeMetadata}>
+                <Text style={styles.ageRating}>{item.ageRating}</Text>
+                <Text style={styles.separator}> ◆ </Text>
+                <Text style={styles.metadataText}>{item.audio}</Text>
+                <Text style={styles.separator}> ◆ </Text>
+                <Text style={styles.metadataText}>
+                  {item.genres.join(", ")}
                 </Text>
+              </View>
+
+              {/* Anime description */}
+              <Text style={styles.description}>{item.description}</Text>
 
               <View style={styles.buttonRow}>
                 {/* Continue watching button */}
                 <Pressable
                   style={styles.watchButton}
-                  onPress={() =>
-                    Alert.alert("Continue watching", item.episode)
-                  }
+                  onPress={() => Alert.alert("Continue watching", item.episode)}
                 >
-                  <Ionicons
-                    name="play-outline"
-                    size={28}
-                    color="#000"
-                  />
+                  <Ionicons name="play-outline" size={28} color="#000" />
 
-                  <Text style={styles.watchText}>
-                    {item.episode}
-                  </Text>
+                  <Text style={styles.watchText}>{item.episode}</Text>
                 </Pressable>
 
                 {/* Bookmark button */}
                 <Pressable
                   style={styles.listButton}
-                  onPress={() => toggleFavourite(item.id)}>
+                  onPress={() => toggleFavourite(item.id)}
+                >
                   <Ionicons
                     name={
                       favourites.includes(item.id)
@@ -203,21 +206,21 @@ useEffect(() => {
       {/* Pagination indicators displayed beneath the carousel */}
       <View style={styles.indicators}>
         {featuredAnime.map((anime, index) => (
-            <View key={anime.id} style={styles.indicator}>
+          <View key={anime.id} style={styles.indicator}>
             {/* Only the active indicator contains a progress fill. */}
             {activeIndex === index && (
-                <View
+              <View
                 style={[
-                    styles.indicatorFill,
-                    // Convert the numeric progress value into a
-                    // percentage-based width for the fill.
-                    { width: `${progress}%` },
+                  styles.indicatorFill,
+                  // Convert the numeric progress value into a
+                  // percentage-based width for the fill.
+                  { width: `${progress}%` },
                 ]}
-                />
+              />
             )}
-            </View>
+          </View>
         ))}
-        </View>
+      </View>
     </View>
   );
 };
@@ -225,115 +228,115 @@ useEffect(() => {
 export default FeaturedCarousel;
 
 const styles = StyleSheet.create({
-    featuredContainer: {
-      // Each featured slide fills the screen's available width. keep in mind if i need to change this for web
-      width: screenWidth,
-      height: 620,
-      // Allows the information overlay to be positioned relative to this slide.
-      position: "relative",
-      // Hide anything extending beyond the slide boundaries.
-      overflow: "hidden",
-    },
-    featuredImage: {
-      width: "100%",
-      height: "100%",
-    },
-    featuredInformation: {
-      position: "absolute",
-      bottom: 0,
-      width: "100%",
-      padding: 16,
-      paddingBottom: 20,
-      // Semi-transparent black background for readable text.
-      // The final value (0.50) controls background opacity.
-      backgroundColor: "rgba(0, 0, 0, 0.50)",
-    },
-    animeTitle: {
-      fontSize: 32,
-      fontWeight: "bold",
-      color: "#fff",
-      marginBottom: 10,
-    },
-    description: {
-      fontSize: 12,
-      color: "#fff",
-      marginBottom: 20,
-    },
-    buttonRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 12,
-    },
-    watchButton: {
-      flex: 1,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 10,
-      backgroundColor: "#FF640A",
-      paddingVertical: 12,
-      borderRadius: 30,
-    },
-    watchText: {
-      color: "#000",
-      fontWeight: "bold",
-      fontSize: 15,
-    },
-    listButton: {
-      borderColor: "#ff640a",
-      borderWidth: 2,
-      borderRadius: 30,
-      width: 50,
-      height: 50,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    indicators: {
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      gap: 8,
-      paddingVertical: 18,
-      paddingHorizontal: 16,
-    },
-    indicator: {
-      width: 40,
-      height: 8,
-      borderRadius: 4,
-      backgroundColor: "#aaa",
-    },
-    indicatorFill: {
-      height: "100%",
-      backgroundColor: "#ff640a",
-    },
-    animeMetadata: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginBottom: 12,
-      gap: 4,
-    },
-    ageRating: {
-      backgroundColor: "#404044",
-      color: "#fff",
-      fontSize: 13,
-      fontWeight: "bold",
-      paddingHorizontal: 6,
-      paddingVertical: 3,
-      borderRadius: 2,
-      overflow: "hidden",
-    },
-    metadataText: {
-      color: "#fff",
-      fontSize: 12,
-      flexShrink: 1,
-    },
-    separator: {
-      color: "#fff",
-      fontSize: 8,
-      textAlign: "center",
-      includeFontPadding: false,
-    },
-    featuredImagePressable: {
-      width: "100%",
-      height: "100%",
-    },
+  featuredContainer: {
+    // Each featured slide fills the screen's available width. keep in mind if i need to change this for web
+    width: screenWidth,
+    height: 620,
+    // Allows the information overlay to be positioned relative to this slide.
+    position: "relative",
+    // Hide anything extending beyond the slide boundaries.
+    overflow: "hidden",
+  },
+  featuredImage: {
+    width: "100%",
+    height: "100%",
+  },
+  featuredInformation: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    padding: 16,
+    paddingBottom: 20,
+    // Semi-transparent black background for readable text.
+    // The final value (0.50) controls background opacity.
+    backgroundColor: "rgba(0, 0, 0, 0.50)",
+  },
+  animeTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 12,
+    color: "#fff",
+    marginBottom: 20,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  watchButton: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: "#FF640A",
+    paddingVertical: 12,
+    borderRadius: 30,
+  },
+  watchText: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 15,
+  },
+  listButton: {
+    borderColor: "#ff640a",
+    borderWidth: 2,
+    borderRadius: 30,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  indicators: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: 8,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+  },
+  indicator: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#aaa",
+  },
+  indicatorFill: {
+    height: "100%",
+    backgroundColor: "#ff640a",
+  },
+  animeMetadata: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+    gap: 4,
+  },
+  ageRating: {
+    backgroundColor: "#404044",
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  metadataText: {
+    color: "#fff",
+    fontSize: 12,
+    flexShrink: 1,
+  },
+  separator: {
+    color: "#fff",
+    fontSize: 8,
+    textAlign: "center",
+    includeFontPadding: false,
+  },
+  featuredImagePressable: {
+    width: "100%",
+    height: "100%",
+  },
 });

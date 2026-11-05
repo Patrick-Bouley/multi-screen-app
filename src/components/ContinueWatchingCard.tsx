@@ -25,7 +25,6 @@ interface ContinueWatchingCardProps {
 const ContinueWatchingCard = ({ anime }: ContinueWatchingCardProps) => {
   return (
     <View style={styles.card}>
-
       {/* Entire episode image is pressable */}
       <Pressable
         style={styles.imageContainer}
@@ -36,10 +35,8 @@ const ContinueWatchingCard = ({ anime }: ContinueWatchingCardProps) => {
         <Image
           source={{ uri: anime.image }}
           style={styles.image}/>
-
         {/* Information displayed over the bottom of the thumbnail */}
         <View style={styles.informationOverlay}>
-
           {/* Play icon positioned to the left of the episode information */}
           <View style={styles.playIcon}>
             <Ionicons
@@ -47,7 +44,6 @@ const ContinueWatchingCard = ({ anime }: ContinueWatchingCardProps) => {
               size={30}
               color="#FFFFFF"/>
           </View>
-
           {/* Anime title and episode number */}
           <View style={styles.episodeInformation}>
             <Text
@@ -88,69 +84,69 @@ const ContinueWatchingCard = ({ anime }: ContinueWatchingCardProps) => {
 export default ContinueWatchingCard;
 
 const styles = StyleSheet.create({
-    card: {
-        width: 360,
-    },
-    imageContainer: {
-        width: "100%",
-        aspectRatio: 16 / 9,
-        position: "relative",
-        overflow: "hidden",
-    },
-    image: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "cover",
-    },
-    informationOverlay: {
-        position: "absolute",
-        bottom: 12,
-        left: 0,
-        right: 0,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-    },
-    playIcon: {
-        width: 50,
-        height: 50,
-        borderRadius: 999,
-        backgroundColor: "rgba(0,0,0,0.40)",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    episodeInformation: {
-        flex: 1,
-    },
-    title: {
-        color: "#FFFFFF",
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-    episode: {
-        color: "#FFFFFF",
-        fontSize: 12,
-        marginTop: 4,
-    },
-    timeLeft: {
-        color: "#FFFFFF",
-        fontSize: 11,
-        fontWeight: "bold",
-        backgroundColor: "rgba(0, 0, 0, 0.65)",
-        paddingHorizontal: 5,
-        paddingVertical: 3,
-    },
-    progressBackground: {
-        position: "absolute",
-        bottom: 0,
-        width: "100%",
-        height: 4,
-        backgroundColor: "#777777",
-    },
-    progressFill: {
-        height: "100%",
-        backgroundColor: "#FF640A",
-    },
+  card: {
+    width: 360,
+  },
+  imageContainer: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+    position: "relative",
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  informationOverlay: {
+    position: "absolute",
+    bottom: 12,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  playIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 999,
+    backgroundColor: "rgba(0,0,0,0.40)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  episodeInformation: {
+    flex: 1,
+  },
+  title: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  episode: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    marginTop: 4,
+  },
+  timeLeft: {
+    color: "#FFFFFF",
+    fontSize: 11,
+    fontWeight: "bold",
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+  },
+  progressBackground: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 4,
+    backgroundColor: "#777777",
+  },
+  progressFill: {
+    height: "100%",
+    backgroundColor: "#FF640A",
+  },
 });

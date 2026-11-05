@@ -172,85 +172,85 @@ const Browse = () => {
 export default Browse;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#000000",
-    },
-    categoryNavigation: {
-        height: 60,
-        flexGrow: 0,
-        overflow: "visible",
-    },
-    categoryRow: {
-        paddingHorizontal: 8,
-        gap: 0,
-        alignItems: "stretch",
-    },
-    categoryButton: {
-        paddingHorizontal: 12,
-        justifyContent: "center",
-        borderBottomWidth: 3,
-        borderBottomColor: "#303030",
-    },
-    activeCategory: {
-        borderBottomColor: "#FF640A",
-    },
-    categoryText: {
-        color: "#999999",
-        fontSize: 15,
-        fontWeight: "bold",
-    },
-    activeCategoryText: {
-        color: "#FFFFFF",
-    },
-    gridContent: {
-        paddingHorizontal: 16,
-        paddingBottom: 24,
-    },
-    sectionHeader: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 16,
-        marginBottom: 20,
-    },
-    sectionTitle: {
-        color: "#FFFFFF",
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    headerButtons: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 24,
-    },
-    gridRow: {
-        gap: 12,
-        marginBottom: 16,
-    },
-    card: {
-        flex: 1,
-        minWidth: 0,
-    },
-    poster: {
-        width: "100%",
-        aspectRatio: 2 / 3,
-        resizeMode: "cover",
-    },
-    animeTitle: {
-        color: "#FFFFFF",
-        fontSize: 14,
-        fontWeight: "bold",
-        marginTop: 8,
-    },
-    audioRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 8,
-    },
-    audio: {
-        color: "#999999",
-        fontSize: 13,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "#000000",
+  },
+  categoryNavigation: {
+    height: 54,
+    flexGrow: 0,
+    overflow: "visible",
+  },
+  categoryRow: {
+    paddingHorizontal: 8,
+    gap: 0,
+    alignItems: "stretch",
+  },
+  categoryButton: {
+    paddingHorizontal: 8,
+    justifyContent: "center",
+    borderBottomWidth: 3,
+    borderBottomColor: "#303030",
+  },
+  activeCategory: {
+    borderBottomColor: "#FF640A",
+  },
+  categoryText: {
+    color: "#999999",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  activeCategoryText: {
+    color: "#FFFFFF",
+  },
+  gridContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  headerButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 24,
+  },
+  gridRow: {
+    gap: 12,
+    marginBottom: 16,
+  },
+  card: {
+    flex: 1,
+    minWidth: 0,
+  },
+  poster: {
+    width: "100%",
+    aspectRatio: 2 / 3,
+    resizeMode: "cover",
+  },
+  animeTitle: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 8,
+  },
+  audioRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 8,
+  },
+  audio: {
+    color: "#999999",
+    fontSize: 13,
+  },
 });

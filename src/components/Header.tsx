@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingTop: 14,
+    paddingBottom: 6
   },
   leftSection: {
     flex: 1,
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: "bold",
   },
   iconButton: {

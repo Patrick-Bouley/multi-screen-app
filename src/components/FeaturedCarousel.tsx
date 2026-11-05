@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     featuredContainer: {
       // Each featured slide fills the screen's available width. keep in mind if i need to change this for web
       width: screenWidth,
-      height: 580,
+      height: 620,
       // Allows the information overlay to be positioned relative to this slide.
       position: "relative",
       // Hide anything extending beyond the slide boundaries.
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
       backgroundColor: "rgba(0, 0, 0, 0.50)",
     },
     animeTitle: {
-      fontSize: 36,
+      fontSize: 32,
       fontWeight: "bold",
       color: "#fff",
       marginBottom: 10,
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       gap: 10,
       backgroundColor: "#FF640A",
-      paddingVertical: 14,
+      paddingVertical: 12,
       borderRadius: 30,
     },
     watchText: {

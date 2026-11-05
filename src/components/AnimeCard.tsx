@@ -88,11 +88,11 @@ export default AnimeCard;
 
 const styles = StyleSheet.create({
   card: {
-    width: 140,
+    width: 157,
   },
   poster: {
-    width: 140,
-    height: 210,
+    width: 160,
+    height: 240,
     resizeMode: "cover",
   },
   title: {

@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#000000",
     },
     profileBanner: {
-        height: 260,
+        height: 290,
         position: "relative",
         justifyContent: "center",
         alignItems: "center",
@@ -302,15 +302,15 @@ const styles = StyleSheet.create({
     },
     sectionLabel: {
         color: "#999999",
-        fontSize: 14,
-        marginTop: 30,
+        fontSize: 13,
+        marginTop: 20,
         marginHorizontal: 16,
-        marginBottom: 8,
+        marginBottom: 4,
     },
     settingRow: {
-        minHeight: 52,
+        minHeight: 45,
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 8,
         borderBottomWidth: 1,
         borderBottomColor: "#303030",
         flexDirection: "row",
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     },
     settingText: {
         color: "#FFFFFF",
-        fontSize: 15,
+        fontSize: 14,
         flexShrink: 1,
     },
     settingValue: {

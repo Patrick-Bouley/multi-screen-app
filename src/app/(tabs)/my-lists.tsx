@@ -391,23 +391,23 @@ const styles = StyleSheet.create({
   },
   watchlistCard: {
     flexDirection: "row",
-    gap: 14,
-    marginBottom: 12,
-    minHeight: 155,
+    gap: 12,
+    marginBottom: 6,
+    minHeight: 115,
   },
   poster: {
-    width: 100,
-    height: 150,
+    width: 75,
+    height: 112,
     resizeMode: "cover",
   },
   cardInformation: {
     flex: 1,
     justifyContent: "space-between",
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   animeTitle: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
   },
   episode: {

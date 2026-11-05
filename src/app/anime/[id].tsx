@@ -10,16 +10,7 @@
  * anime from the same Watchlist used by Home and My Lists.
  */
 import { useState } from "react";
-import {
-  Alert,
-  Image,
-  Pressable,
-  ScrollView,
-  Share,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -49,7 +40,7 @@ const AnimeDetails = () => {
           hitSlop={10}
           onPress={() => router.back()}
         >
-          <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
+          <Ionicons name="close" size={26} color="#FFFFFF" />
         </Pressable>
 
         <View style={styles.notFound}>
@@ -61,17 +52,6 @@ const AnimeDetails = () => {
 
   // Check whether the selected anime is already saved.
   const isSaved = favourites.includes(anime.id);
-
-  // Open the phone's native sharing menu.
-  const shareAnime = async () => {
-    try {
-      await Share.share({
-        message: `Check out ${anime.title}!`,
-      });
-    } catch {
-      Alert.alert("Share", "Unable to share this anime.");
-    }
-  };
 
   // Options menu reuses the same shared Watchlist.
   const showOptions = () => {
@@ -105,7 +85,7 @@ const AnimeDetails = () => {
               hitSlop={10}
               onPress={() => router.back()}
             >
-              <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
+              <Ionicons name="close" size={26} color="#FFFFFF" />
             </Pressable>
 
             <View style={styles.topButtons}>
@@ -170,11 +150,18 @@ const AnimeDetails = () => {
               <Text style={styles.actionText}>My List</Text>
             </Pressable>
 
-            <Pressable style={styles.actionButton} onPress={shareAnime}>
-              <Ionicons name="share-social-outline" size={25} color="#FF640A" />
-
+            {/* Share button - visual placeholder only */}
+            <View style={styles.actionButton}>
+              <Ionicons name="share-social-outline" size={24} color="#FF640A" />
               <Text style={styles.actionText}>Share</Text>
-            </Pressable>
+            </View>
+
+            {/* Manga button - visual placeholder only */}
+            <View style={styles.actionButton}>
+              <Ionicons name="book-outline" size={24} color="#FF640A" />
+              <Text style={styles.actionText}>Manga</Text>
+            </View>
+
           </View>
 
           {/* Description preview. Expands when More Details is tapped. */}
@@ -273,7 +260,7 @@ const styles = StyleSheet.create({
   },
   information: {
     paddingHorizontal: 16,
-    paddingTop: 14,
+    paddingTop: 8,
   },
   title: {
     color: "#FFFFFF",
@@ -323,7 +310,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 36,
-    marginVertical: 18,
+    marginBottom: 14,
   },
   actionButton: {
     alignItems: "center",
@@ -338,14 +325,13 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#FFFFFF",
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 21,
     marginBottom: 12,
     textAlign: "center",
   },
   moreDetailsButton: {
     alignItems: "center",
-    paddingVertical: 12,
   },
   moreDetailsText: {
     color: "#FF640A",

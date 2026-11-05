@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   categoryNavigation: {
-    height: 60,
+    height: 47,
     flexGrow: 0,
   },
   categoryRow: {
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   categoryButton: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     justifyContent: "center",
     borderBottomWidth: 3,
     borderBottomColor: "#303030",
@@ -340,12 +340,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 16,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 16,
   },
   sectionTitle: {
     color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
   headerButtons: {

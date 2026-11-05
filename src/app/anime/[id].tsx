@@ -1,16 +1,16 @@
 /*
  * Anime Details Screen
  *
- * Uses the dynamic [id] route provided by Expo Router.
+ * Displays information about whichever anime the user selected.
  *
- * Reads the selected anime ID from the URL, retrieves
- * the corresponding object from the shared catalogue,
- * and displays its details.
+ * Expo Router passes the anime ID through the [id] route.
+ * The ID is used to look up the anime in our shared catalogue.
  *
- * Also allows users to bookmark or unbookmark anime.
+ * This screen also uses FavouritesContext to add or remove
+ * anime from the same Watchlist used by Home and My Lists.
  */
-
-import {Alert, Image, Pressable, ScrollView, StyleSheet, Text, View,} from "react-native";
+import { useState } from "react";
+import {Alert, Image, Pressable, ScrollView, Share, StyleSheet, Text, View,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,137 +18,220 @@ import { getAnimeById } from "../../data/AnimeData";
 import { useFavourites } from "../../context/FavouritesContext";
 
 const AnimeDetails = () => {
-  // Read the ID from a route such as /anime/black-clover.
+  // Read the anime ID from the route.
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  // Retrieve the anime using our existing helper function.
+  // Look up the selected anime in our master catalogue.
   const anime = getAnimeById(id ?? "");
 
+  // Shared Watchlist state.
   const { favourites, toggleFavourite } = useFavourites();
 
-  // Check the result before accessing the anime properties.
+  // Controls whether the full description is visible.
+  const [showMore, setShowMore] = useState(false);
+
+  // Handle an ID that doesn't exist in our catalogue.
   if (!anime) {
     return (
       <SafeAreaView style={styles.container}>
+        {/* Return to the previous screen in the navigation stack */}
         <Pressable
           style={styles.backButton}
-          onPress={() => router.back()}
-        >
+          hitSlop={10}
+          onPress={() => router.back()}>
           <Ionicons
             name="arrow-back"
-            size={28}
-            color="#FFFFFF"
-          />
+            size={26}
+            color="#FFFFFF"/>
         </Pressable>
 
         <View style={styles.notFound}>
           <Text style={styles.title}>Anime Not Found</Text>
-          <Text style={styles.description}>
-            The selected anime could not be found.
-          </Text>
         </View>
       </SafeAreaView>
     );
   }
 
+  // Check whether the selected anime is already saved.
   const isSaved = favourites.includes(anime.id);
+
+  // Open the phone's native sharing menu.
+  const shareAnime = async () => {
+    try {
+      await Share.share({
+        message: `Check out ${anime.title}!`,
+      });
+    } catch {
+      Alert.alert("Share", "Unable to share this anime.");
+    }
+  };
+
+  // Options menu reuses the same shared Watchlist.
+  const showOptions = () => {
+    Alert.alert(anime.title, "Choose an option", [
+      {text: isSaved
+          ? "Remove from Watchlist"
+          : "Add to Watchlist",
+        onPress: () => toggleFavourite(anime.id),
+      },
+      { text: "Cancel",
+        style: "cancel",
+      },
+    ]);
+  };
 
   return (
     <SafeAreaView
       style={styles.container}
-      edges={["top"]}
-    >
-      <ScrollView>
-        {/* Promotional image */}
-        <Image
-          source={{
-            uri: anime.featuredImage ?? anime.image,
-          }}
-          style={styles.heroImage}
-        />
+      edges={["top", "bottom"]}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}>
+        {/* Large promotional image and overlaid top navigation */}
+        <View style={styles.heroContainer}>
+          <Image
+            source={{
+              uri: anime.featuredImage ?? anime.image,
+            }}
+            style={styles.heroImage}/>
 
-        {/* Custom back button because root Stack hides headers. */}
-        <Pressable
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons
-            name="arrow-back"
-            size={28}
-            color="#FFFFFF"
-          />
-        </Pressable>
+          <View style={styles.topNavigation}>
+            <Pressable
+              style={styles.backButton}
+              hitSlop={10}
+              onPress={() => router.back()}>
+            <Ionicons
+              name="arrow-back"
+              size={26}
+              color="#FFFFFF"/>
+            </Pressable>
 
+            <View style={styles.topButtons}>
+              <Pressable
+                hitSlop={10}
+                onPress={() =>
+                  Alert.alert("Cast", "Cast selected")}>
+                <Ionicons
+                  name="tv-outline"
+                  size={26}
+                  color="#FFFFFF"/>
+              </Pressable>
+
+              <Pressable hitSlop={10} onPress={showOptions}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={25}
+                  color="#FFFFFF"/>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+        {/* Selected anime details */}
         <View style={styles.information}>
-          <Text style={styles.title}>
-            {anime.title}
-          </Text>
+          <Text style={styles.title}>{anime.title}</Text>
 
-          <View style={styles.metadata}>
+          {/* Age rating, audio and genres */}
+          <View style={styles.metadataRow}>
             {anime.ageRating && (
-              <Text style={styles.rating}>
-                {anime.ageRating}
-              </Text>
+              <Text style={styles.ageRating}>{anime.ageRating}</Text>
             )}
 
-            <Text style={styles.audio}>
-              {anime.audio}
-            </Text>
+            <Text style={styles.metadataText}>{anime.audio}</Text>
+
+            {anime.genres && anime.genres.length > 0 && (
+              <Text style={styles.metadataText}>• {anime.genres.join(", ")}</Text>
+            )}
           </View>
 
-          {/* Some catalogue entries do not have genres. */}
-          {anime.genres && (
-            <Text style={styles.genres}>
-              {anime.genres.join(", ")}
-            </Text>
+          {/* Only show a rating when the data exists. */}
+          {anime.ratingAverage !== undefined && (
+            <View style={styles.ratingRow}>
+              <Text style={styles.stars}>★★★★★</Text>
+
+              <Text style={styles.ratingText}>
+                Average: {anime.ratingAverage}
+                {anime.ratingCount
+                  ? ` (${anime.ratingCount})`
+                  : ""}</Text>
+
+              <Ionicons
+                name="chevron-down"
+                size={16}
+                color="#FFFFFF"/>
+            </View>
           )}
 
-          <Text style={styles.description}>
+          {/* My List and Share actions */}
+          <View style={styles.actionRow}>
+            <Pressable
+              style={styles.actionButton}
+              onPress={() => toggleFavourite(anime.id)}>
+              <Ionicons
+                name={isSaved ? "checkmark" : "add"}
+                size={28}
+                color="#FF640A"/>
+
+              <Text style={styles.actionText}>My List</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.actionButton}
+              onPress={shareAnime}>
+              <Ionicons
+                name="share-social-outline"
+                size={25}
+                color="#FF640A"/>
+
+              <Text style={styles.actionText}>Share</Text>
+            </Pressable>
+          </View>
+
+          {/* Description preview. Expands when More Details is tapped. */}
+          <Text
+            style={styles.description}
+            numberOfLines={showMore ? undefined : 3}>
             {anime.description ??
               "More information about this anime is coming soon."}
           </Text>
 
-          <View style={styles.buttonRow}>
-            <Pressable
-              style={styles.watchButton}
-              onPress={() =>
-                Alert.alert(
-                  "Watch Anime",
-                  anime.episode ?? "Start Watching E1"
-                )
-              }
-            >
-              <Ionicons
-                name="play"
-                size={24}
-                color="#000000"
-              />
-
-              <Text
-                style={styles.watchText}
-                numberOfLines={1}
-              >
-                {anime.episode ?? "Start Watching E1"}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={styles.bookmarkButton}
-              onPress={() => toggleFavourite(anime.id)}
-            >
-              <Ionicons
-                name={
-                  isSaved
-                    ? "bookmark"
-                    : "bookmark-outline"
-                }
-                size={26}
-                color="#FF640A"
-              />
-            </Pressable>
-          </View>
+          <Pressable
+            style={styles.moreDetailsButton}
+            onPress={() => setShowMore(!showMore)}>
+            <Text style={styles.moreDetailsText}>
+              {showMore ? "Show Less" : "More Details"}
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
+
+      {/* Watch controls stay visible at the bottom of the screen. */}
+      <View style={styles.bottomControls}>
+        <Pressable
+          style={styles.watchButton}
+          onPress={() =>
+            Alert.alert(
+              "Watch Anime",
+              anime.episode ?? "Start Watching E1"
+            )} >
+          <Ionicons
+            name="play-outline"
+            size={26}
+            color="#000000"/>
+
+          <Text style={styles.watchText} numberOfLines={1}>
+            {anime.episode ?? "Start Watching E1"}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.bookmarkButton}
+          onPress={() => toggleFavourite(anime.id)}>
+          <Ionicons
+            name={isSaved ? "bookmark" : "bookmark-outline"}
+            size={26}
+            color="#FF640A"/>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 };
@@ -160,63 +243,131 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000",
   },
-  heroImage: {
-    width: "100%",
-    height: 380,
-    resizeMode: "cover",
+  scrollContent: {
+    paddingBottom: 20,
   },
   backButton: {
-    position: "absolute",
-    top: 16,
-    left: 16,
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     alignItems: "center",
     justifyContent: "center",
   },
+  heroContainer: {
+    height: 430,
+    position: "relative",
+  },
+  heroImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  topNavigation: {
+    position: "absolute",
+    top: 16,
+    left: 16,
+    right: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  topButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 26,
+  },
+  closeButton: {
+    margin: 16,
+  },
   information: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 14,
   },
   title: {
     color: "#FFFFFF",
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: "bold",
     marginBottom: 14,
+    textAlign: "center"
   },
-  metadata: {
+  metadataRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    marginBottom: 12,
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: 7,
+    marginBottom: 14,
   },
-  rating: {
+  ageRating: {
     color: "#FFFFFF",
     backgroundColor: "#404044",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    justifyContent: "center",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    fontSize: 12,
     fontWeight: "bold",
   },
-  audio: {
-    color: "#CCCCCC",
-    fontSize: 14,
+  metadataText: {
+    color: "#FFFFFF",
+    fontSize: 12,
   },
-  genres: {
-    color: "#CCCCCC",
-    fontSize: 14,
-    marginBottom: 16,
+  ratingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 7,
+    marginBottom: 18,
+  },
+  stars: {
+    color: "#FFFFFF",
+    fontSize: 17,
+    letterSpacing: 1,
+  },
+  ratingText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+  },
+  actionRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 36,
+    marginVertical: 18,
+  },
+  actionButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 60,
+    gap: 5,
+  },
+  actionText: {
+    color: "#FF640A",
+    fontSize: 12,
+    textAlign: "center"
   },
   description: {
     color: "#FFFFFF",
     fontSize: 14,
-    lineHeight: 22,
-    marginBottom: 24,
+    lineHeight: 21,
+    marginBottom: 12,
+    textAlign: "center"
   },
-  buttonRow: {
+  moreDetailsButton: {
+    alignItems: "center",
+    paddingVertical: 12,
+  },
+  moreDetailsText: {
+    color: "#FF640A",
+    fontSize: 13,
+    fontWeight: "bold",
+  },
+  bottomControls: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#000000",
   },
   watchButton: {
     flex: 1,
@@ -225,29 +376,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     backgroundColor: "#FF640A",
-    paddingVertical: 15,
-    paddingHorizontal: 12,
     borderRadius: 30,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
   },
   watchText: {
     color: "#000000",
-    fontWeight: "bold",
     fontSize: 14,
+    fontWeight: "bold",
     flexShrink: 1,
   },
   bookmarkButton: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 48,
+    height: 48,
     borderWidth: 2,
     borderColor: "#FF640A",
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
   },
   notFound: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
-    padding: 24,
+    alignItems: "center",
   },
 });

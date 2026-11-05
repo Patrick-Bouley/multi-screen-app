@@ -24,6 +24,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { trendingAnime } from "../../data/TrendingData";
+import { simulcastAnime } from "../../data/SimulcastData";
 import { allAnime } from "../../data/AnimeData";
 import type { Anime } from "../../data/TrendingData";
 import { router } from "expo-router";
@@ -38,16 +39,7 @@ const categories = [
   "Games",
 ];
 
-// Anime selected for the Simulcasts category.
-// Their full information is stored in AnimeData.ts.
-const simulcastIds = [
-  "dan-da-dan",
-  "blue-lock",
-  "kaiju-no-8",
-  "wind-breaker",
-  "fire-force",
-  "dr-stone",
-];
+
 
 const Browse = () => {
   // Tracks which category is currently selected.
@@ -56,14 +48,12 @@ const Browse = () => {
   // Access shared favourites from the root Provider.
   const { favourites, toggleFavourite } = useFavourites();
 
-  // Start with the complete anime catalogue.
+
+  // Choose which anime to display based on the selected category.
   let displayedAnime = [...allAnime];
 
-  // Only display the six selected anime in Simulcasts.
   if (activeCategory === "Simulcasts") {
-    displayedAnime = displayedAnime.filter((anime) =>
-      simulcastIds.includes(anime.id),
-    );
+    displayedAnime = simulcastAnime;
   }
 
   // The other unfinished categories display no anime.

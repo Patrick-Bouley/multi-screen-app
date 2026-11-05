@@ -4,22 +4,10 @@ import Header from "../../components/Header";
 import FeaturedCarousel from "../../components/FeaturedCarousel";
 import AnimeCarousel from "../../components/AnimeCarousel";
 import { trendingAnime } from "../../data/TrendingData";
-import { allAnime } from "../../data/AnimeData";
+import { simulcastAnime } from "../../data/SimulcastData";
 import ContinueWatchingCarousel from "../../components/ContinueWatchingCarousel";
 
-const simulcastIds = [
-  "dan-da-dan",
-  "blue-lock",
-  "kaiju-no-8",
-  "wind-breaker",
-  "fire-force",
-  "dr-stone",
-];
 
-// Retrieve the corresponding anime objects from the master catalogue.
-const simulcastAnime = allAnime.filter((anime) =>
-  simulcastIds.includes(anime.id),
-);
 
 const Home = () => {
   // Tracks whether the header should have a black background.

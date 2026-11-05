@@ -23,7 +23,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
-import { trendingAnime } from "../../data/TrendingData";
 import { simulcastAnime } from "../../data/SimulcastData";
 import { allAnime } from "../../data/AnimeData";
 import type { Anime } from "../../data/TrendingData";

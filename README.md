@@ -1,56 +1,118 @@
-# Welcome to your Expo app 👋
+# Crunchyroll Mobile App Recreation
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Project Overview
 
-## Get started
+This project is a recreation of the Crunchyroll mobile application, developed using **React Native, Expo, and TypeScript**.
 
-1. Install dependencies
+The goal of this assignment was to recreate the layout and navigation of an existing mobile application while demonstrating the use of multiple screens, Tab and Stack navigation, reusable components, and dynamic content.
+
+The application uses sample anime data and placeholder images to recreate the appearance and basic interactions of Crunchyroll.
+
+**GitHub Repository:** https://github.com/Patrick-Bouley/multi-screen-app
+
+## Features
+
+### Home
+- Featured anime carousel with automatic transitions.
+- Horizontal carousels for trending anime and simulcasts.
+- Continue Watching section displaying episode information.
+- Navigation from anime cards to individual details screens.
+
+### My Lists
+- Watchlist that displays saved anime.
+- Ability to add or remove anime from the Watchlist.
+- Shared Watchlist information across screens using React Context.
+- Additional categories for Crunchylists, History, and Downloads.
+
+### Browse
+- Two-column grid displaying anime from the catalogue.
+- Horizontal category navigation.
+- Separate All Anime and Simulcasts categories.
+- Navigation to individual anime details.
+- Options to add or remove anime from the Watchlist.
+
+### Shopping
+- Placeholder screen representing the Crunchyroll Store.
+
+### Account
+- Profile banner with avatar and username.
+- Account settings and preferences.
+- Interactive switches and sample selection options.
+
+### Anime Details
+- Dynamic details screen based on the selected anime.
+- Anime artwork, title, description, genres, and ratings where available.
+- Expandable description.
+- Ability to add or remove anime from the Watchlist.
+- Placeholder controls for playback, sharing, and other features.
+
+## Technologies Used
+
+- **React Native** – Mobile application development
+- **Expo** – Development and testing environment
+- **TypeScript** – Application programming language
+- **Expo Router** – Tab and Stack navigation
+- **React Context API** – Shared Watchlist state
+- **Expo Vector Icons** – Application icons
+
+
+## Getting Started
+
+### Requirements
+- Node.js
+- npm
+- Visual Studio Code or another code editor
+- Expo Go on a compatible mobile device, or an Android/iOS emulator
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Patrick-Bouley/multi-screen-app.git
+   ```
+
+2. Navigate into the project folder:
+
+   ```bash
+   cd multi-screen-app
+   ```
+
+3. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+4. Start the Expo development server:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+5. Scan the QR code using Expo Go on a compatible mobile device, or launch the application using a configured emulator.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Navigation
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+The application uses a combination of **Tab and Stack navigation**.
 
-## Get a fresh project
+- **Tab Navigation:** Allows users to switch between Home, My Lists, Browse, Shopping, and Account.
+- **Stack Navigation:** Opens individual anime details screens and allows users to return to the previous screen.
+- **Dynamic Routing:** Uses the selected anime's ID to display the appropriate details.
 
-When you're ready, run:
+## Notes and Limitations
 
-```bash
-npm run reset-project
-```
+- This is an educational recreation and is not affiliated with Crunchyroll.
+- Anime information is stored locally in sample data files.
+- All images use placeholder URLs.
+- Playback, shopping, and certain menu options are visual placeholders.
+- Watchlist information is stored in React state and resets when the application restarts.
+- Some categories and settings contain placeholder content.
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Reference Application
 
-### Other setup steps
+The application layout is based on the Crunchyroll mobile app. Reference screenshots and comparison screenshots were captured to demonstrate the recreated interface.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Purpose
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project demonstrates the use of React Native components, Expo Router navigation, TypeScript, reusable components, shared state, and consistent styling to create a multi-screen mobile application.
